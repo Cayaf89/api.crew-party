@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Auth;
 class RedirectIfAuthenticated
 {
     /**
+     * Indicates whether the XSRF-TOKEN cookie should be set on the response.
+     *
+     * @var bool
+     */
+    protected $addHttpCookie = true;
+
+    /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request

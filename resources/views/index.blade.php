@@ -29,6 +29,10 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <div id="vue-components">
+            <modal-create-update-crew  v-if="$store.state.modal.createUpdateCrew.show"  v-bind="$store.state.modal.createUpdateCrew" :on-close="function() { $store.commit('setModal', { type: 'createUpdateCrew', value: { show: false }}) }"></modal-create-update-crew>
+        </div>
     </div>
 </body>
 </html>

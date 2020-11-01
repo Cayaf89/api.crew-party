@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
     ];
@@ -44,5 +44,9 @@ class User extends Authenticatable
 
     public function crews() {
         return $this->belongsToMany(Crew::class);
+    }
+
+    public function myCrews() {
+        return $this->hasMany(Crew::class, 'owner_id');
     }
 }

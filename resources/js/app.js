@@ -13,7 +13,9 @@ window.Vue = require('vue');
 import VuejsDialog from 'vuejs-dialog';
 import Vuex from "vuex";
 import 'vuejs-dialog/dist/vuejs-dialog.min.css';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
+Vue.use(CKEditor);
 Vue.use(Vuex);
 Vue.use(VuejsDialog, {
     html: true,
@@ -26,7 +28,9 @@ Vue.use(VuejsDialog, {
 window.Store = new Vuex.Store({
     state: {
         user: {},
-        modal: {}
+        modal: {
+            createUpdateCrew: { show: false, crew_id: null }
+        }
     },
     mutations: {
         setUser: function (state, data) {
@@ -55,7 +59,13 @@ if (window.user) {
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0],
 // files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('loading-button', require('./components/ButtonLoaderComponent.vue').default);
+
+Vue.component(
+    'modal-create-update-crew',
+    function (resolve) {
+        require(['./components/Modals/ModalCreateUpdateCrew.vue'], resolve)
+    });
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -63,6 +73,4 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app',
-});
+require('./components.vue.js');

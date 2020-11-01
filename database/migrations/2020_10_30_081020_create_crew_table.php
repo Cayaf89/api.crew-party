@@ -17,10 +17,10 @@ class CreateCrewTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->text('description');
+            $table->longText('description');
         });
 
-        Schema::create('crew_users', function (Blueprint $table) {
+        Schema::create('crew_user', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignId('crew_id')
@@ -39,7 +39,7 @@ class CreateCrewTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('crew');
         Schema::dropIfExists('crew_users');
+        Schema::dropIfExists('crew');
     }
 }

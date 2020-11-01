@@ -6,3 +6,50 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// Toastr
+@import '../../node_modules/toastr/build/toastr.min.css';
+
+.text-blue {
+  color: $blue;
+}
+
+.text-indigo {
+  color: $indigo;
+}
+
+.text-purple {
+  color: $purple;
+}
+
+.text-pink {
+  color: $pink;
+}
+
+.text-red {
+  color: $red;
+}
+
+.text-orange {
+  color: $orange;
+}
+
+.text-yellow {
+  color: $yellow;
+}
+
+.text-green {
+  color: $green;
+}
+
+.text-teal {
+  color: $teal;
+}
+
+.text-cyan {
+  color: $cyan;
+}
+
+.btn-round {
+  border-radius: 50%;
+}

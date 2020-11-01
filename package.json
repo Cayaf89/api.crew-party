@@ -24,8 +24,12 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^23.1.0",
+        "@ckeditor/ckeditor5-vue": "^1.0.3",
         "mix-env-file": "^0.1.0",
         "toastr": "^2.1.4",
+        "vue-good-table": "^2.21.1",
+        "vue-select": "^3.10.8",
         "vuejs-dialog": "^1.4.2",
         "vuex": "^3.5.1"
     }
