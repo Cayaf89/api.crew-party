@@ -1,34 +1,45 @@
 <template>
     <div>
-        <vue-good-table
-            :columns="columns"
-            :rows="crews"
-            :pagination-options="{enabled: true}"
-            :isLoading.sync="loading"
-            @on-row-click="onRowClick"
-        >
-            <template slot="pagination-bottom" slot-scope="props">
-                <custom-pagination
-                    :nb-page-total="totalPage"
-                    :on-update-page="updatePage">
-                </custom-pagination>
-            </template>
-            <template slot="loadingContent">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-primary" @click="createCrew">
+                    Create Crew
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <vue-good-table
+                    :columns="columns"
+                    :rows="crews"
+                    :pagination-options="{enabled: true}"
+                    :isLoading.sync="loading"
+                    @on-row-click="onRowClick"
+                >
+                    <template slot="pagination-bottom" slot-scope="props">
+                        <custom-pagination
+                            :nb-page-total="totalPage"
+                            :on-update-page="updatePage">
+                        </custom-pagination>
+                    </template>
+                    <template slot="loadingContent">
                 <span class="spinner-grow spinner-grow-sm text-blue" role="status" aria-hidden="true">
                     <span class="sr-only">Loading...</span>
                 </span>
-            </template>
-            <template slot="table-row" slot-scope="props">
+                    </template>
+                    <template slot="table-row" slot-scope="props">
                 <span v-if="props.column.field === 'delete'">
                   <button type="button" class="btn btn-danger btn-round" @click.prevent.stop="deleteCrew(props.row.id)">
                       <i class="fa fa-close"></i>
                   </button>
                 </span>
-                <span v-else>
+                        <span v-else>
                   {{ props.formattedRow[props.column.field] }}
                 </span>
-            </template>
-        </vue-good-table>
+                    </template>
+                </vue-good-table>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -114,7 +125,13 @@ export default {
                 type: 'createUpdateCrew',
                 value: { show: true, crew_id: params.row.id, callback: this.getCrews }
             })
-        }
+        },
+        createCrew: function () {
+            this.$store.commit('setModal', {
+                type: 'createUpdateCrew',
+                value: { show: true, callback: this.getCrews }
+            })
+        },
     }
 }
 </script>

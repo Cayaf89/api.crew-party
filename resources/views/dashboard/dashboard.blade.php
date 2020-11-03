@@ -15,13 +15,6 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <button type="button" class="btn btn-primary" @click="openModalCreateUpdateCrew">
-                                        Create Crew
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
                                     <crew-table></crew-table>
                                 </div>
                             </div>

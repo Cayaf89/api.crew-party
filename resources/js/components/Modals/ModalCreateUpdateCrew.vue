@@ -9,16 +9,30 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="crew-name">Nom</label>
-                            <input id="crew-name" type="text" class="form-control" v-model="name">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 d-flex align-items-center justify-content-center flex-column">
+                                <file-upload
+                                    accept="image/*"
+                                    @input-file="inputFile"
+                                    :min-height="150"
+                                    :min-width="150"
+                                >
+                                    <img :src="logoSrc" height="150" width="150" class="crew-logo" alt="logo">
+                                </file-upload>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="crew-name">Description</label>
-                            <ckeditor :editor="editor" v-model="description" :config="editorConfig"></ckeditor>
+                        <div class="row">
+                            <div class="offset-3 col-6">
+                                <label for="crew-name">Nom</label>
+                                <input id="crew-name" type="text" class="form-control" v-model="name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Description</label>
+                                <ckeditor :editor="editor" v-model="description" :config="editorConfig"></ckeditor>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -37,11 +51,12 @@
 
 <script>
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { imageResize } from "../../services/fileService";
 
 export default {
     name: "ModalCreateUpdateCrew",
     components: {
-        ClassicEditor
+        ClassicEditor,
     },
     props: {
         onClose: Function,
@@ -54,6 +69,8 @@ export default {
             editorConfig: {
                 // The configuration of the editor.
             },
+            logo: null,
+            logoSrc: '/storage/images/png-clipart-computer-file-friends-gathering-love-child.png',
             name: '',
             description: '<p>Content of the editor.</p>',
             errors: {},
@@ -72,12 +89,29 @@ export default {
         if (this.$props.crew_id) {
             axios.get('/api/crew/' + this.$props.crew_id)
                 .then(res => {
+                    this.logoSrc = res.data.data.logo;
                     this.name = res.data.data.name;
                     this.description = res.data.data.description;
                 })
         }
     },
     methods: {
+        inputFile: async function (newFile, oldFile) {
+            this.logo = newFile;
+            this.logo.file = await imageResize(URL.createObjectURL(newFile.file), 400, 400);
+            this.logoSrc = URL.createObjectURL(newFile.file)
+            if (this.$props.crew_id) {
+                let data = new FormData();
+                data.append('logo', newFile.file);
+                axios.post('/api/crew/logo/' + this.$props.crew_id, data)
+                    .then(res => {
+                        this.logoSrc = res.data.logo;
+                    })
+                    .catch(error => {
+                        toastr.error(error.response.data);
+                    })
+            }
+        },
         submit: function () {
             if (this.$props.crew_id) {
                 axios.post('/api/crew/' + this.$props.crew_id, {
@@ -96,10 +130,11 @@ export default {
                     })
             }
             else {
-                axios.post('/api/crew/', {
-                    name: this.name,
-                    description: this.description,
-                })
+                let data = new FormData();
+                data.append('logo', this.logo.file);
+                data.append('name', this.name);
+                data.append('description', this.description);
+                axios.post('/api/crew/', data)
                     .then(res => {
                         this.errors = {};
                         $(this.$el).modal('hide');
@@ -117,5 +152,9 @@ export default {
 </script>
 
 <style scoped>
-
+.crew-logo {
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+}
 </style>

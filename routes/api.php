@@ -19,6 +19,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/crew/', 'API\\CrewController@createCrew');
     Route::get('/crew/{crew}', 'API\\CrewController@getCrew');
     Route::post('/crew/{crew}', 'API\\CrewController@updateCrew');
+    Route::post('/crew/logo/{crew}', 'API\\CrewController@setLogo');
     Route::delete('/crew/{crew}', 'API\\CrewController@deleteCrew');
     Route::get('/crews', 'API\\CrewController@getListCrews');
 });

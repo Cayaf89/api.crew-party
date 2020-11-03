@@ -14,7 +14,9 @@ import VuejsDialog from 'vuejs-dialog';
 import Vuex from "vuex";
 import 'vuejs-dialog/dist/vuejs-dialog.min.css';
 import CKEditor from '@ckeditor/ckeditor5-vue';
+import VueLazyload from 'vue-lazyload';
 
+Vue.use(VueLazyload);
 Vue.use(CKEditor);
 Vue.use(Vuex);
 Vue.use(VuejsDialog, {
@@ -58,6 +60,8 @@ if (window.user) {
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0],
 // files(key).default))
+const VueUploadComponent = require('vue-upload-component')
+Vue.component('file-upload', VueUploadComponent)
 
 Vue.component('loading-button', require('./components/ButtonLoaderComponent.vue').default);
 

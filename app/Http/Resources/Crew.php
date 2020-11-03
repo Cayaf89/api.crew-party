@@ -16,6 +16,7 @@ class Crew extends JsonResource
     {
         return [
             'id' => $this->id,
+            'logo' => $this->logo,
             'name' => $this->name,
             'description' => $this->description,
             'created_at' => $this->created_at,
