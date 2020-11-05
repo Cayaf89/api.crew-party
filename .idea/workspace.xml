@@ -2,54 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="71224262-f3ab-4259-9d8f-5b99573264fd" name="Default Changelist" comment="add crew list, create, update">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/API/CrewController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/API/UserController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Views/CrewController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Views/WelcomeController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/Crew.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/User.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_10_31_135050_add_owner_id_to_crew_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_10_31_151754_rename_column_name_of_users_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components.vue.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/ButtonLoaderComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/CustomPagination.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Modals/ModalCreateUpdateCrew.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Tables/CrewTable.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/dashboard/dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/446d9fc6-4b15-4dad-98ba-a1bc87c96dff.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/446d9fc6-4b15-4dad-98ba-a1bc87c96dff.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Views/DashboardController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/RedirectIfAuthenticated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/RedirectIfAuthenticated.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Crew.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Crew.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/auth.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_10_30_081020_create_crew_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_10_30_081020_create_crew_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/bootstrap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/ExampleComponent.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/passwords/confirm.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/passwords/confirm.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/passwords/email.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/passwords/email.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/register.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/register.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/verify.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/verify.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/dashboard/dashboard.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/navbar/navbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/navbar/navbar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea-old/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea-old/commandlinetools/Laravel_30_10_2020_08_19.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea-old/commandlinetools/schemas/frameworkDescriptionVersion1.1.4.xsd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea-old/crew-party.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea-old/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea-old/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea-old/dataSources/446d9fc6-4b15-4dad-98ba-a1bc87c96dff.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea-old/dataSources/446d9fc6-4b15-4dad-98ba-a1bc87c96dff/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea-old/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea-old/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea-old/phpunit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea-old/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea-old/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/commandlinetools/Laravel_30_10_2020_08_19.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/commandlinetools/schemas/frameworkDescriptionVersion1.1.4.xsd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/crew-party.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/446d9fc6-4b15-4dad-98ba-a1bc87c96dff.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/446d9fc6-4b15-4dad-98ba-a1bc87c96dff/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,8 +41,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="Vue Single File Component" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -203,6 +181,7 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
       <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
       <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/vendor/intervention/image" />
     </include_path>
   </component>
   <component name="ProjectId" id="1jaVfZ245GtdnnEw9lz3B4nwMCu" />
@@ -210,7 +189,6 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
-    <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
@@ -219,7 +197,7 @@
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/js/components" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/sass" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -231,13 +209,14 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/sass" />
+      <recent name="$PROJECT_DIR$/resources/js/components" />
+      <recent name="$PROJECT_DIR$/resources/views" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/resources/views/dashboard" />
       <recent name="$PROJECT_DIR$/app/Http/Controllers/Views" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/resources/js/components" />
-      <recent name="$PROJECT_DIR$/resources/views" />
     </key>
   </component>
   <component name="RunManager">
@@ -256,7 +235,12 @@
       <updated>1604042293574</updated>
       <workItem from="1604042294648" duration="923000" />
       <workItem from="1604044034887" duration="2427000" />
-      <workItem from="1604137076673" duration="19802000" />
+      <workItem from="1604137076673" duration="23906000" />
+      <workItem from="1604301843622" duration="1024000" />
+      <workItem from="1604383274775" duration="7043000" />
+      <workItem from="1604410183697" duration="5479000" />
+      <workItem from="1604471508769" duration="2615000" />
+      <workItem from="1604556657535" duration="9482000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1604044244568</created>
@@ -272,7 +256,28 @@
       <option name="project" value="LOCAL" />
       <updated>1604046502644</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add crud crew">
+      <created>1604231359820</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1604231359820</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add logo to crew">
+      <created>1604390703767</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1604390703767</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add sidebar + page crew">
+      <created>1604568238601</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1604568238601</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -284,33 +289,40 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="first commit" />
     <MESSAGE value="add crew table, model and relations" />
-    <option name="LAST_COMMIT_MESSAGE" value="add crew table, model and relations" />
+    <MESSAGE value="add crud crew" />
+    <MESSAGE value="add logo to crew" />
+    <MESSAGE value="add sidebar + page crew" />
+    <option name="LAST_COMMIT_MESSAGE" value="add sidebar + page crew" />
   </component>
   <component name="WindowStateProjectService">
     <state x="320" y="115" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604043847664">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="320" y="115" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1604043847664" />
+    <state x="420" y="250" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1604472668203">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="420" y="250" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.900@0.0.1440.900" timestamp="1604472668203" />
     <state x="497" y="101" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1604144997432">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="497" y="101" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.900@0.0.1440.900" timestamp="1604144997432" />
-    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1604156051418">
+    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1604386627649">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.900@0.0.1440.900" timestamp="1604156051418" />
-    <state x="58" y="23" width="1315" height="804" key="CommitChangelistDialog2" timestamp="1604231283692">
+    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.900@0.0.1440.900" timestamp="1604386627649" />
+    <state x="58" y="23" width="1315" height="804" key="CommitChangelistDialog2" timestamp="1604568379762">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="58" y="23" width="1315" height="804" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1604231283692" />
+    <state x="58" y="23" width="1315" height="804" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1604568379762" />
     <state x="415" y="167" key="NewPhpClassDialog" timestamp="1604151084893">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="415" y="167" key="NewPhpClassDialog/0.0.1440.900@0.0.1440.900" timestamp="1604151084893" />
-    <state x="539" y="376" key="NewPhpFileDialog" timestamp="1604045259006">
+    <state x="539" y="376" key="NewPhpFileDialog" timestamp="1604472612200">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="539" y="376" key="NewPhpFileDialog/0.0.1440.900@0.0.1440.900" timestamp="1604045259006" />
+    <state x="539" y="376" key="NewPhpFileDialog/0.0.1440.900@0.0.1440.900" timestamp="1604472612200" />
     <state x="483" y="76" key="RollbackChangesDialog" timestamp="1604230700325">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -319,10 +331,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="221" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1604042346352" />
-    <state x="320" y="171" key="Vcs.Push.Dialog.v2" timestamp="1604046505854">
+    <state x="320" y="171" key="Vcs.Push.Dialog.v2" timestamp="1604568241804">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1604046505854" />
+    <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1604568241804" />
     <state x="519" y="328" width="401" height="251" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1" timestamp="1604161831476">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -331,13 +343,17 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="516" y="367" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.900@0.0.1440.900" timestamp="1604044382201" />
-    <state x="189" y="78" width="1116" height="757" key="find.popup" timestamp="1604221284415">
+    <state x="189" y="78" width="1116" height="757" key="find.popup" timestamp="1604241547766">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="189" y="78" width="1116" height="757" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1604221284415" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1604223708167">
+    <state x="189" y="78" width="1116" height="757" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1604241547766" />
+    <state width="600" height="440" key="javadoc.popup" timestamp="1604387009869">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1604223708167" />
+    <state width="600" height="440" key="javadoc.popup/0.0.1440.900@0.0.1440.900" timestamp="1604387009869" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1604384179336">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1604384179336" />
   </component>
 </project>
