@@ -19,5 +19,6 @@ Auth::routes();
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Views\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/crew/{crew}', [App\Http\Controllers\Views\CrewController::class, 'show'])->name('dashboard');
 });
 

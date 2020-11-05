@@ -18,7 +18,8 @@
         "laravel/passport": "^10.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
-        "rogervila/laravel-legacy-ui": "^3.0"
+        "rogervila/laravel-legacy-ui": "^3.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

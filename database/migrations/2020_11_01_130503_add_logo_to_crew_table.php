@@ -14,7 +14,7 @@ class AddLogoToCrewTable extends Migration
     public function up()
     {
         Schema::table('crew', function (Blueprint $table) {
-            $table->string('logo')->nullable();
+            $table->string('logo')->default('/storage/images/png-clipart-computer-file-friends-gathering-love-child.png');
         });
     }
 

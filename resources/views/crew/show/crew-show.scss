@@ -1,0 +1,24 @@
+@import '../../../sass/components';
+
+#crew-show-page {
+  .crew-logo {
+    border-radius: 50%;
+  }
+
+  .input-crew-name {
+    font-size: 1.35rem;
+  }
+
+  .crew-name {
+    font-size: 1.35rem;
+    font-weight: 500;
+    line-height: 1.2;
+    padding: 10px;
+    border: solid 1px transparent;
+  }
+
+  .crew-name:hover {
+    border: solid 1px $gray;
+    border-radius: 10px;
+  }
+}

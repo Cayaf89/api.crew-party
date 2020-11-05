@@ -26,11 +26,12 @@
     <div id="app">
         @include('navbar.navbar')
 
-        <main class="py-4">
+        <main id="content" class="py-4">
             @yield('content')
         </main>
 
         <div id="vue-components">
+            <crew-side-bar></crew-side-bar>
             <modal-create-update-crew  v-if="$store.state.modal.createUpdateCrew.show"  v-bind="$store.state.modal.createUpdateCrew" :on-close="function() { $store.commit('setModal', { type: 'createUpdateCrew', value: { show: false }}) }"></modal-create-update-crew>
         </div>
     </div>

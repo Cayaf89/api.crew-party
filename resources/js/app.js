@@ -30,6 +30,9 @@ Vue.use(VuejsDialog, {
 window.Store = new Vuex.Store({
     state: {
         user: {},
+        crew: {
+            updateSideBarCrews: null
+        },
         modal: {
             createUpdateCrew: { show: false, crew_id: null }
         }
@@ -41,6 +44,12 @@ window.Store = new Vuex.Store({
         setModal: function (state, data) {
             state.modal[data.type] = data.value;
         },
+        setUpdateSideBarCrews: function (state, data) {
+            state.crew.updateSideBarCrews = data;
+        },
+        updateSideBarCrews: function (state) {
+            state.crew.updateSideBarCrews();
+        }
     }
 })
 

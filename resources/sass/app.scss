@@ -2,13 +2,17 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
-@import 'variables';
+@import 'components';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
 // Toastr
 @import '../../node_modules/toastr/build/toastr.min.css';
+
+#content {
+    margin-left: 60px;
+}
 
 .text-blue {
   color: $blue;
