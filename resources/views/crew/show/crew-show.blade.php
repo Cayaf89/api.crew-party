@@ -29,7 +29,7 @@
                     </div>
                     <div class="input-group ml-5 w-auto" v-else>
                         <input type="text" class="input-crew-name" v-model="crew.name" placeholder="Nom"
-                               :style="'width: ' + ((crew.name.length + 1) * 0.68) + 'rem'">
+                               :style="'width: ' + ((crew.name.length + 1) * 0.82) + 'rem'">
                         <div class="input-group-append">
                             <button type="button" class="input-crew-name-button input-group-text" @click.prevent="saveCrewName">
                                 <i class="fas fa-check"></i>

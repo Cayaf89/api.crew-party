@@ -21,6 +21,12 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @stack('css')
+    <style>
+      @font-face {
+        font-family: 'Monaco';
+        src: local('Monaco'), url('fonts/Monaco.woff') format('woff');
+      }
+    </style>
 </head>
 <body>
     <div id="app">
