@@ -12,10 +12,11 @@ const app = new Vue({
             },
             crew: window.crew,
             logo: {},
-            logoSrc: window.crew.logo,
+            logoSrc: window.crew?.logo ? window.crew.logo : '/storage/images/png-clipart-computer-file-friends-gathering-love-child.png',
             isNameEdit: false,
             isDescriptionEdit: false,
-            nameError: null
+            nameError: null,
+            descriptionError: null,
         }
     },
     mounted() {
@@ -82,7 +83,7 @@ const app = new Vue({
                 })
                 .catch(error => {
                     if (error?.response?.data?.errors) {
-                        this.nameError = error.response.data.errors?.name;
+                        this.descriptionError = error.response.data.errors?.description;
                     }
                 })
         }

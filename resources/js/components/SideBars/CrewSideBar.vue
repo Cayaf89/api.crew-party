@@ -13,7 +13,7 @@
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-                <a :href="'/crew/' + crew.id" class="sidebar-link" v-for="crew in myCrews" v-else>
+                <a :href="'/crew/' + crew.id" class="sidebar-link" :title="crew.name" v-for="crew in myCrews" v-else>
                     <div class="sidebar-link-logo">
                         <img :src="crew.logo" class="sidebar-link-logo-image">
                     </div>
@@ -32,7 +32,7 @@
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-                <a :href="'/crew/' + crew.id" class="sidebar-link" v-for="crew in otherCrews" v-else>
+                <a :href="'/crew/' + crew.id" class="sidebar-link" :title="crew.name" v-for="crew in otherCrews" v-else>
                     <div class="sidebar-link-logo">
                         <img :src="crew.logo" class="sidebar-link-logo-image">
                     </div>
@@ -139,8 +139,8 @@ export default {
 .sidebar.open .sidebar-logo {
     margin: 10px auto;
     margin-bottom: 40px;
-    height: 180px;
-    width: 180px;
+    height: 120px;
+    width: 120px;
     transition: height 0.5s ease, width 0.5s ease;
 }
 
@@ -178,10 +178,11 @@ export default {
 }
 
 .sidebar-link-text {
-    display: flex;
     align-self: center;
-    margin-left: 15px;
+    padding: 0 10px;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .sidebar-link-logo {

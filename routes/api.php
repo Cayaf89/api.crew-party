@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/user', 'API\\UserController@createUpdateCrew');
+    Route::post('/user/{user}', 'API\\UserController@setUser');
+    Route::post('/user/logo/{user}', 'API\\UserController@setLogo');
 
     Route::post('/crew/', 'API\\CrewController@createCrew');
     Route::get('/crew/{crew}', 'API\\CrewController@getCrew');

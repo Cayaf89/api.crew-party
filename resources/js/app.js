@@ -30,12 +30,11 @@ Vue.use(VuejsDialog, {
 window.Store = new Vuex.Store({
     state: {
         user: {},
-        crew: {
-            updateSideBarCrews: null
-        },
         modal: {
             createUpdateCrew: { show: false, crew_id: null }
-        }
+        },
+        updateSideBarCrews: null,
+        updateNavBarUser: null,
     },
     mutations: {
         setUser: function (state, data) {
@@ -45,10 +44,16 @@ window.Store = new Vuex.Store({
             state.modal[data.type] = data.value;
         },
         setUpdateSideBarCrews: function (state, data) {
-            state.crew.updateSideBarCrews = data;
+            state.updateSideBarCrews = data;
         },
         updateSideBarCrews: function (state) {
-            state.crew.updateSideBarCrews();
+            state.updateSideBarCrews();
+        },
+        setUpdateNavBarUser: function (state, data) {
+            state.updateNavBarUser = data;
+        },
+        updateNavBarUser: function (state) {
+            state.updateNavBarUser();
         }
     }
 })

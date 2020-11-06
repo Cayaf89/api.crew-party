@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddLogoToUsersTable extends Migration
+class AddFirstnameLastnameToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class AddLogoToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('logo')->default('/storage/images/png-clipart-computer-file-friends-gathering-love-child.png');
+            $table->string('lastname')->after('id');
+            $table->string('firstname')->after('id');
         });
     }
 
@@ -26,7 +27,8 @@ class AddLogoToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('logo');
+            $table->dropColumn('firstname');
+            $table->dropColumn('lastname');
         });
     }
 }
