@@ -70,7 +70,7 @@ export default {
                 // The configuration of the editor.
             },
             logo: null,
-            logoSrc: '/storage/images/png-clipart-computer-file-friends-gathering-love-child.png',
+            logoSrc: '/storage/images/default-logo.png',
             name: '',
             description: '<p>Content of the editor.</p>',
             errors: {},

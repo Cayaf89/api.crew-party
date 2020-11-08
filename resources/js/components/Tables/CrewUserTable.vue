@@ -2,13 +2,13 @@
     <vue-good-table
         mode="remote"
         :columns="columns"
-        :rows="crews"
+        :rows="users"
         :totalRows="totalPage"
         :isLoading.sync="loading"
         :pagination-options="{enabled: true}"
         :search-options="searchOptions"
         @on-row-click="onRowClick"
-        @on-search="searchCrew"
+        @on-search="searchUser"
     >
         <template slot="pagination-bottom" slot-scope="props">
             <custom-pagination
@@ -25,9 +25,12 @@
         <template slot="table-row" slot-scope="props">
             <span v-if="props.column.field === 'delete'">
                 <loading-button type="button" class="btn btn-danger btn-round"
-                                :loading="deleting" :on_click="() => deleteCrew(props.row.id)">
+                                :loading="deleting" :on_click="() => removeUserFromCrew(props.row.id)">
                     <i class="fa fa-close"></i>
                 </loading-button>
+            </span>
+            <span v-if="props.column.field === 'owner' && $props.ownerId == props.row.id">
+                <i class="fas fa-crown"></i>
             </span>
             <span v-else>
                 {{ props.formattedRow[props.column.field] }}
@@ -42,16 +45,18 @@ import { VueGoodTable } from 'vue-good-table';
 import CustomPagination from "../CustomPagination";
 
 export default {
-    name: "CrewTable",
+    name: "CrewUserTable",
     store: Store,
     components: {
         CustomPagination,
         VueGoodTable,
     },
     props: {
-        crews: Array,
-        getCrews: Function,
-        loading: Boolean
+        users: Array,
+        getUsers: Function,
+        loading: Boolean,
+        ownerId: Number,
+        crewId: Number
     },
     data: function () {
         return {
@@ -65,13 +70,29 @@ export default {
                     sortable: false,
                 },
                 {
-                    field: 'owner_name',
-                    label: 'Nom du propriétaire',
+                    field: 'owner',
+                    label: '',
+                    sortable: false,
+                    width: '30px'
+                },
+                {
+                    field: 'username',
+                    label: 'Pseudo',
                     sortable: false,
                 },
                 {
-                    field: 'name',
+                    field: 'firstname',
+                    label: 'Prénom',
+                    sortable: false,
+                },
+                {
+                    field: 'lastname',
                     label: 'Nom',
+                    sortable: false,
+                },
+                {
+                    field: 'email',
+                    label: 'Email',
                     sortable: false,
                 },
                 {
@@ -90,24 +111,22 @@ export default {
         }
     },
     mounted() {
-        this.$props.getCrews();
+        this.$props.getUsers(this.page, this.filter);
     },
     methods: {
         updatePage: function (activePage) {
             this.page = activePage;
-            this.$props.getCrews(this.page, this.filter);
+            this.$props.getUsers(this.page, this.filter);
         },
-        deleteCrew: function (id) {
+        removeUserFromCrew: function (userId) {
             this.$dialog
-                .confirm('Voulez-vous vraiment supprimer ce crew ?')
+                .confirm('Voulez-vous vraiment retiré cet utilisateur du crew ?')
                 .then(function(dialog) {
                     this.deleting = true;
-                    axios.delete('/api/crew/' + id)
+                    axios.delete('/api/crew/' + this.$props.crewId + '/user/' + userId)
                         .then(res => {
                             this.deleting = false;
-                            this.$props.getCrews(this.page, this.filter);
-                            this.$store.state.updateSideBarCrews();
-                            toastr.error('Le crew a bien été supprimé');
+                            toastr.error('L\'utilisateur a été retiré du crew.');
                         })
                         .catch(() => {
                             toastr.error('Un problème est survenu');
@@ -115,12 +134,15 @@ export default {
                 })
         },
         onRowClick: function (params) {
-            location.href = '/crew/' + params.row.id;
+            this.$store.commit('setModal', {
+                type: 'user',
+                value: { show: true, userId: params.row.id }
+            })
         },
-        searchCrew: function (params) {
+        searchUser: function (params) {
             this.filter = params.searchTerm
             this.page = 1
-            this.$props.getCrews(this.page, params.searchTerm);
+            this.$props.getUsers(this.page, params.searchTerm);
         }
     }
 }

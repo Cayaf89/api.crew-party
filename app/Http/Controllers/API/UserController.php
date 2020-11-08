@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
 
+    public function getUser(Request $request, User $user) {
+        return new \App\Http\Resources\User($user);
+    }
+
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\User $user

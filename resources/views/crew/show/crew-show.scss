@@ -21,4 +21,9 @@
     border: solid 1px $gray;
     border-radius: 10px;
   }
+
+  .error {
+    color: $red;
+    font-size: 0.7rem;
+  }
 }

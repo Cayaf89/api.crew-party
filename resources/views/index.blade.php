@@ -43,6 +43,9 @@
         <modal-create-update-crew v-if="$store.state.modal.createUpdateCrew.show"
                                   v-bind="$store.state.modal.createUpdateCrew"
                                   :on-close="function() { $store.commit('setModal', { type: 'createUpdateCrew', value: { show: false }}) }"></modal-create-update-crew>
+        <modal-user v-if="$store.state.modal.user.show"
+                    v-bind="$store.state.modal.user"
+                    :on-close="function() { $store.commit('setModal', { type: 'user', value: { show: false }}) }"></modal-user>
     </div>
 
     @auth()

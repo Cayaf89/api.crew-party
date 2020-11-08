@@ -31,7 +31,8 @@ window.Store = new Vuex.Store({
     state: {
         user: {},
         modal: {
-            createUpdateCrew: { show: false, crew_id: null }
+            createUpdateCrew: { show: false, crew_id: null },
+            user: { show: false, userId: null }
         },
         updateSideBarCrews: null,
         updateNavBarUser: null,
@@ -83,6 +84,12 @@ Vue.component(
     'modal-create-update-crew',
     function (resolve) {
         require(['./components/Modals/ModalCreateUpdateCrew.vue'], resolve)
+    });
+
+Vue.component(
+    'modal-user',
+    function (resolve) {
+        require(['./components/Modals/ModalUser.vue'], resolve)
     });
 
 /**

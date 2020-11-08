@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\User;
 use App\Models\Crew;
+use App\Services\CrewService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,6 +24,22 @@ class CrewController extends Controller
 
     /**
      * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Crew $crew
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getCrewUsers(Request $request, Crew $crew) {
+        /** @var \App\Models\User $user */
+        $users = $crew->users()->orderBy('updated_at', 'DESC');
+        if ($request->filled('filter')) {
+            $users = CrewService::filterUsers($users, $request->filter);
+        }
+        $users = $users->paginate(10);
+        return User::collection($users);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
@@ -29,7 +47,7 @@ class CrewController extends Controller
         $validator = Validator::make($request->all(), [
             'name'        => 'required_without_all:description,logo',
             'description' => 'required_without_all:name,logo',
-            'logo'        => 'required_without_all:name,description|image',
+            'logo'        => 'nullable|required_without_all:name,description|image',
         ]);
 
         if ($validator->fails()) {
@@ -38,13 +56,16 @@ class CrewController extends Controller
 
         else {
             /** @var \App\Models\User $user */
-            $user = auth('api')->user();
-            $crew = Crew::create([
-                                     'logo'        => $request->logo,
-                                     'name'        => $request->name,
-                                     'description' => $request->description,
-                                     'owner_id'    => $user->id,
-                                 ]);
+            $user       = auth('api')->user();
+            $crewParams = [
+                'name'        => $request->name,
+                'description' => $request->description,
+                'owner_id'    => $user->id,
+            ];
+            if ($request->logo) {
+                $crewParams['logo'] = $request->logo;
+            }
+            $crew = Crew::create($crewParams);
             $user->crews()->save($crew);
         }
         return response()->json([]);
@@ -58,7 +79,6 @@ class CrewController extends Controller
      */
     public function updateCrew(Request $request, Crew $crew) {
         if (auth('api')->user()->id === $crew->owner_id) {
-
             if (!empty($crew)) {
                 $isUpdated = FALSE;
                 if ($request->filled('name') && $crew->name !== $request->name) {
@@ -117,16 +137,8 @@ class CrewController extends Controller
         /** @var \App\Models\User $user */
         $user  = auth('api')->user();
         $crews = $user->crews()->orderBy('updated_at', 'DESC');
-        if ($request->filled('id')) {
-            $crews = $crews->where('id', $request->id);
-        }
-        if ($request->filled('name')) {
-            $crews->whereRaw('LOWER(name) like ?', '%' . strtolower($request->name) . '%');
-        }
-        if ($request->filled('owner_name')) {
-            $crews->whereHas('owner', function ($query) use ($request) {
-                $query->whereRaw('LOWER(username) like ?', ['%' . strtolower($request->owner_name) . '%']);
-            });
+        if ($request->filled('filter')) {
+            $crews = CrewService::filterCrews($crews, $request->filter);
         }
         $crews = $crews->with('owner');
         $crews = $crews->paginate(10);
@@ -144,16 +156,8 @@ class CrewController extends Controller
         $crews = $user->crews()
                       ->where('owner_id', '!=', $user->id)
                       ->orderBy('updated_at', 'DESC');
-        if ($request->filled('id')) {
-            $crews = $crews->where('id', $request->id);
-        }
-        if ($request->filled('name')) {
-            $crews->whereRaw('LOWER(name) like ?', '%' . strtolower($request->name) . '%');
-        }
-        if ($request->filled('owner_name')) {
-            $crews->whereHas('owner', function ($query) use ($request) {
-                $query->whereRaw('LOWER(username) like ?', ['%' . strtolower($request->owner_name) . '%']);
-            });
+        if ($request->filled('filter')) {
+            $crews = CrewService::filterCrews($crews, $request->filter);
         }
         $crews = $crews->with('owner');
         $crews = $crews->paginate(10);
@@ -169,16 +173,8 @@ class CrewController extends Controller
         /** @var \App\Models\User $user */
         $user  = auth('api')->user();
         $crews = $user->myCrews()->orderBy('updated_at', 'DESC');
-        if ($request->filled('id')) {
-            $crews = $crews->where('id', $request->id);
-        }
-        if ($request->filled('name')) {
-            $crews->whereRaw('LOWER(name) like ?', '%' . strtolower($request->name) . '%');
-        }
-        if ($request->filled('owner_name')) {
-            $crews->whereHas('owner', function ($query) use ($request) {
-                $query->whereRaw('LOWER(username) like ?', ['%' . strtolower($request->owner_name) . '%']);
-            });
+        if ($request->filled('filter')) {
+            $crews = CrewService::filterCrews($crews, $request->filter);
         }
         $crews = $crews->with('owner');
         $crews = $crews->paginate(10);

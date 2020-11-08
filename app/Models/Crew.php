@@ -31,6 +31,10 @@ class Crew extends Model
         return $this->belongsTo(User::class, 'owner_id');
     }
 
+    public function events() {
+        return $this->hasMany(Event::class, 'crew_id');
+    }
+
     public function getLogo() {
         return !empty($this->logo) ? '/storage/' . $this->logo : NULL;
     }

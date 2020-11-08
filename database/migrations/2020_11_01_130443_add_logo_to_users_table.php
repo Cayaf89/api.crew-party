@@ -14,7 +14,7 @@ class AddLogoToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('logo')->default('/storage/images/png-clipart-computer-file-friends-gathering-love-child.png');
+            $table->string('logo')->default('images/default-logo.png');
         });
     }
 
