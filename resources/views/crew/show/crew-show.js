@@ -1,5 +1,6 @@
 import { imageResize } from "../../../js/services/fileService";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import '@ckeditor/ckeditor5-build-classic/build/translations/fr.js';
 
 const app = new Vue({
     el: '#crew-show-page',
@@ -8,7 +9,26 @@ const app = new Vue({
         return {
             editor: ClassicEditor,
             editorConfig: {
-                // The configuration of the editor.
+                language: 'fr',
+                toolbar: {
+                    items: [
+                        "heading",
+                        "|",
+                        "bold",
+                        "italic",
+                        "link",
+                        "bulletedList",
+                        "numberedList",
+                        "|",
+                        "indent",
+                        "outdent",
+                        "|",
+                        "blockQuote",
+                        "insertTable",
+                        "undo",
+                        "redo"
+                    ]
+                },
             },
             crew: window.crew,
             logo: {},

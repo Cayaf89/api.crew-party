@@ -11,9 +11,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    @stack('scripts')
+@stack('scripts')
 
-    <!-- Fonts -->
+<!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <script src="https://kit.fontawesome.com/934c983142.js" crossorigin="anonymous" defer async></script>
@@ -29,21 +29,27 @@
     </style>
 </head>
 <body>
-    <div id="app">
-        @include('navbar.navbar')
+<div id="app">
+    @include('navbar.navbar')
 
-        <main id="content" class="py-4">
-            @yield('content')
-        </main>
+    <main id="content" class="py-4">
+        @yield('content')
+    </main>
 
-        <div id="vue-components">
+    <div id="vue-components">
+        @auth()
             <crew-side-bar></crew-side-bar>
-            <modal-create-update-crew  v-if="$store.state.modal.createUpdateCrew.show"  v-bind="$store.state.modal.createUpdateCrew" :on-close="function() { $store.commit('setModal', { type: 'createUpdateCrew', value: { show: false }}) }"></modal-create-update-crew>
-        </div>
+        @endauth
+        <modal-create-update-crew v-if="$store.state.modal.createUpdateCrew.show"
+                                  v-bind="$store.state.modal.createUpdateCrew"
+                                  :on-close="function() { $store.commit('setModal', { type: 'createUpdateCrew', value: { show: false }}) }"></modal-create-update-crew>
+    </div>
 
+    @auth()
         <script type="text/javascript">
             window.user = {!! json_encode(new \App\Http\Resources\User(Auth::user())) !!};
         </script>
-    </div>
+    @endauth
+</div>
 </body>
 </html>
