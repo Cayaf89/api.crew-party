@@ -23,14 +23,20 @@
             </span>
         </template>
         <template slot="table-row" slot-scope="props">
-            <span v-if="props.column.field === 'delete'">
-                <loading-button type="button" class="btn btn-danger btn-round"
+            <span v-if="props.column.field === 'delete' && $props.ownerId != props.row.id">
+                <loading-button type="button" class="btn btn-danger btn-round btn-sm"
                                 :loading="deleting" :on_click="() => removeUserFromCrew(props.row.id)">
                     <i class="fa fa-close"></i>
                 </loading-button>
             </span>
-            <span v-if="props.column.field === 'owner' && $props.ownerId == props.row.id">
+            <span v-if="props.column.field === 'owner' && $props.ownerId == props.row.id" class="d-flex justify-content-center">
                 <i class="fas fa-crown"></i>
+            </span>
+            <span v-if="props.column.field === 'username'">
+                <span class="d-flex align-items-center ">
+                    <img :src="props.row.logo" class="user-logo" alt="user-logo" height="50" width="50">
+                    <span>{{ props.row.username }}</span>
+                </span>
             </span>
             <span v-else>
                 {{ props.formattedRow[props.column.field] }}
@@ -63,12 +69,6 @@ export default {
             page: 1,
             totalPage: 1,
             columns: [
-                {
-                    field: 'id',
-                    label: 'ID',
-                    type: 'number',
-                    sortable: false,
-                },
                 {
                     field: 'owner',
                     label: '',
@@ -148,6 +148,12 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+.user-logo {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+table.vgt-table td {
+    vertical-align: middle;
+}
 </style>

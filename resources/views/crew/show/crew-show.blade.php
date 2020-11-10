@@ -13,6 +13,10 @@
 
 @section('content')
     <div id="crew-show-page">
+        <crew-user-side-bar
+                v-if="crew.id !== null"
+                :crew-id="crew.id"
+        ></crew-user-side-bar>
         <div class="container">
             <div class="row">
                 <div class="col-12 d-flex align-items-center">
@@ -67,17 +71,6 @@
                     <loading-button type="button" class="btn btn-primary" :loading="submitting" :on_click="submitCrew">
                         Enregistrer
                     </loading-button>
-                </div>
-            </div>
-            <div class="row mt-5" v-if="crew.id !== null">
-                <div class="col-12">
-                    <crew-user-table
-                            :users="users"
-                            :get-users="getUsers"
-                            :loading="loadingUsers"
-                            :owner-id="crew.owner_id"
-                            :crew-id="crew.id"
-                    ></crew-user-table>
                 </div>
             </div>
         </div>

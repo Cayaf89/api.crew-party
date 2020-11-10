@@ -2,12 +2,14 @@ import { imageResize } from "../../../js/services/fileService";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-build-classic/build/translations/fr.js';
 import CrewUserTable from "../../../js/components/Tables/CrewUserTable";
+import CrewUserSideBar from "../../../js/components/SideBars/CrewUserSideBar";
 
 const app = new Vue({
     el: '#crew-show-page',
     store: Store,
     components: {
-        CrewUserTable
+        CrewUserTable,
+        CrewUserSideBar,
     },
     data: function () {
         return {
