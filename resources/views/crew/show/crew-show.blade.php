@@ -22,6 +22,7 @@
                 <div class="col-12 d-flex align-items-center">
                     <div class="d-flex flex-column">
                         <file-upload
+                                input-id="crew-logo"
                                 accept="image/*"
                                 @input-file="inputFile"
                                 :min-height="150"
@@ -64,6 +65,40 @@
                             @{{ error }}
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row mt-4" v-if="crew.id !== null">
+                <div class="col-12 d-flex justify-content-between">
+                    <div class="h3">
+                        Évènements
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Recherche" v-model="eventFilter">
+                        </div>
+                        <button type="button" class="btn btn-primary mx-2" @click="addEvent">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-primary" @click="refreshEvents">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4" v-if="crew.id !== null">
+                <div class="col-12">
+                    <card-deck
+                            :data="events"
+                            :get-data="getEvents"
+                            :infinite-id="eventsInfiniteId"
+                            :on-card-click="onCardClickEvent"
+                    ></card-deck>
                 </div>
             </div>
             <div class="row mt-5" v-if="crew.id === null">

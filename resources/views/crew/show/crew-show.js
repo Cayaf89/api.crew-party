@@ -1,15 +1,17 @@
-import { imageResize } from "../../../js/services/fileService";
+import { imageResizeSquare } from "../../../js/services/fileService";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-build-classic/build/translations/fr.js';
-import CrewUserTable from "../../../js/components/Tables/CrewUserTable";
 import CrewUserSideBar from "../../../js/components/SideBars/CrewUserSideBar";
+import DataTable from "../../../js/components/Tables/DataTable";
+import CardDeck from "../../../js/components/Cards/CardDeck";
 
 const app = new Vue({
     el: '#crew-show-page',
     store: Store,
     components: {
-        CrewUserTable,
         CrewUserSideBar,
+        DataTable,
+        CardDeck,
     },
     data: function () {
         return {
@@ -43,6 +45,7 @@ const app = new Vue({
                 owner_id: window.crew?.owner_id ? window.crew?.owner_id : this.$store.state.user.id,
             },
             users: [],
+            events: [],
             logo: {},
             logoSrc: window.crew?.logo ? window.crew.logo : '/storage/images/default-logo.png',
             isNameEdit: false,
@@ -52,6 +55,11 @@ const app = new Vue({
             logoError: null,
             submitting: false,
             loadingUsers: false,
+            loadingEvents: false,
+            deletingEvent: false,
+            eventsInfiniteId: +new Date(),
+            eventPage: 1,
+            eventFilter: ''
         }
     },
     mounted() {
@@ -74,7 +82,7 @@ const app = new Vue({
     methods: {
         inputFile: async function (newFile, oldFile) {
             this.logo = newFile;
-            this.logo.file = await imageResize(URL.createObjectURL(newFile.file), 400, 400);
+            this.logo.file = await imageResizeSquare(URL.createObjectURL(newFile.file), 400);
             this.logoSrc = URL.createObjectURL(this.logo.file)
             if (this.crew?.id) {
                 let data = new FormData();
@@ -137,7 +145,7 @@ const app = new Vue({
         getUsers: function (page, filter) {
             if (this.crew.id) {
                 this.loadingUsers = true;
-                axios.get('/api/crew/' + this.crew.id + '/users',{
+                axios.get('/api/crew/' + this.crew.id + '/users', {
                     params: {
                         page: page,
                         filter: filter,
@@ -151,6 +159,63 @@ const app = new Vue({
                         this.loadingUsers = false;
                     })
             }
+        },
+        getEvents: function ($state) {
+            if (this.crew.id) {
+                this.source?.cancel && this.source.cancel()
+                const CancelToken = axios.CancelToken;
+                this.source = CancelToken.source();
+                axios.get('/api/crew/' + this.crew.id + '/events', {
+                    params: {
+                        page: this.eventPage,
+                        filter: this.eventFilter,
+                    },
+                    cancelToken: this.source.token
+                })
+                    .then(res => {
+                        if (res.data.data.length) {
+                            this.eventPage++;
+                            this.events.push(...res.data.data);
+                            $state.loaded();
+                        }
+                        else {
+                            $state.complete();
+                        }
+                    })
+            }
+        },
+        refreshEvents: function () {
+            this.eventPage = 1;
+            this.events = []
+            this.eventsInfiniteId += 1;
+        },
+        onCardClickEvent: function (eventId) {
+            this.$store.commit('setModal', {
+                type: 'createUpdateEvent',
+                value: {
+                    show: true,
+                    classic_editor: this.editor,
+                    crew_id: this.crew.id,
+                    event_id: eventId,
+                    callback: this.refreshEvents
+                }
+            })
+        },
+        addEvent: function () {
+            this.$store.commit('setModal', {
+                type: 'createUpdateEvent',
+                value: {
+                    show: true,
+                    classic_editor: this.editor,
+                    crew_id: this.crew.id,
+                    callback: this.refreshEvents
+                }
+            })
+        }
+    },
+    watch: {
+        eventFilter: function () {
+            this.refreshEvents();
         }
     }
 })

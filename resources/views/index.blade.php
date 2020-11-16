@@ -32,7 +32,7 @@
 <div id="app">
     @include('navbar.navbar')
 
-    <main id="content" class="py-4">
+    <main id="content">
         @yield('content')
     </main>
 
@@ -40,9 +40,9 @@
         @auth()
             <crew-side-bar></crew-side-bar>
         @endauth
-        <modal-create-update-crew v-if="$store.state.modal.createUpdateCrew.show"
-                                  v-bind="$store.state.modal.createUpdateCrew"
-                                  :on-close="function() { $store.commit('setModal', { type: 'createUpdateCrew', value: { show: false }}) }"></modal-create-update-crew>
+        <modal-create-update-event v-if="$store.state.modal.createUpdateEvent.show"
+                                  v-bind="$store.state.modal.createUpdateEvent"
+                                  :on-close="function() { $store.commit('setModal', { type: 'createUpdateEvent', value: { show: false }}) }"></modal-create-update-event>
         <modal-user v-if="$store.state.modal.user.show"
                     v-bind="$store.state.modal.user"
                     :on-close="function() { $store.commit('setModal', { type: 'user', value: { show: false }}) }"></modal-user>

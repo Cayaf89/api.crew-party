@@ -1,38 +1,18 @@
 <template>
     <div class="sidebar" :class="{open}">
         <div class="sidebar-header">
-            <img class="sidebar-logo" src="/storage/images/logo/Vandal-crew-party.png">
+            <div class="sidebar-title">
+                Crews
+            </div>
         </div>
         <div class="sidebar-body">
             <div class="sidebar-part" v-if="isMyCrews">
-                <div class="sidebar-title">
-                    Mes Crews
-                </div>
                 <div class="sidebar-link d-flex align-items-center justify-content-center" v-if="loadingMyCrew">
                     <div class="spinner-grow" role="status" aria-hidden="true">
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
                 <a :href="'/crew/' + crew.id" class="sidebar-link" :title="crew.name" v-for="crew in myCrews" v-else>
-                    <div class="sidebar-link-logo">
-                        <img :src="crew.logo" class="sidebar-link-logo-image">
-                    </div>
-                    <div class="sidebar-link-text">
-                        {{ crew.name }}
-                    </div>
-                </a>
-            </div>
-
-            <div class="sidebar-part" v-if="isOtherCrews">
-                <div class="sidebar-title">
-                    Autres Crews
-                </div>
-                <div class="sidebar-link d-flex align-items-center justify-content-center" v-if="loadingOtherCrew">
-                    <div class="spinner-grow" role="status" aria-hidden="true">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
-                <a :href="'/crew/' + crew.id" class="sidebar-link" :title="crew.name" v-for="crew in otherCrews" v-else>
                     <div class="sidebar-link-logo">
                         <img :src="crew.logo" class="sidebar-link-logo-image">
                     </div>
@@ -106,13 +86,13 @@ export default {
 
 <style scoped>
 .sidebar {
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
-    top: 0;
+    top: 72px;
     left: 0;
     width: 60px;
-    height: 100%;
+    height: calc(100% - 72px);
     background-color: #455a64;
     transition: width 0.5s ease;
     overflow: hidden;

@@ -21,10 +21,17 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/crew/', 'API\\CrewController@createCrew');
     Route::get('/crew/{crew}', 'API\\CrewController@getCrew');
     Route::get('/crew/{crew}/users', 'API\\CrewController@getCrewUsers');
+    Route::get('/crew/{crew}/events', 'API\\CrewController@getCrewEvents');
     Route::post('/crew/{crew}', 'API\\CrewController@updateCrew');
     Route::post('/crew/logo/{crew}', 'API\\CrewController@setLogo');
     Route::delete('/crew/{crew}', 'API\\CrewController@deleteCrew');
     Route::get('/crews', 'API\\CrewController@getListCrews');
     Route::get('/other-crews', 'API\\CrewController@getListOtherCrews');
     Route::get('/my-crews', 'API\\CrewController@getListMyCrews');
+
+    Route::post('/crew/{crew}/event/', 'API\\EventController@createEvent');
+    Route::get('/event/{event}', 'API\\EventController@getEvent');
+    Route::post('/event/{event}', 'API\\EventController@updateEvent');
+    Route::post('/event/{event}/cover/', 'API\\EventController@setCover');
+    Route::delete('/event/{event}', 'API\\EventController@deleteEvent');
 });

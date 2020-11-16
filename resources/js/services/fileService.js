@@ -1,17 +1,13 @@
-export const imageResize = function(imageData, maxWidth, maxHeight, quality = 1, mimeType = 'image/jpeg') {
+export const imageResizeSquare = function(imageData, maxSize, quality = 1, mimeType = 'image/jpeg') {
 
     return new Promise(function (resolve, reject) {
 
         let img = document.createElement('img');
         img.onload = function() {
             let canvas = document.createElement("canvas");
-            // On détermine le ratio de scale
-            if (!maxHeight) maxHeight = this.height;
-            if (!maxWidth) maxWidth = this.width;
-            let scale = Math.max(maxWidth/this.width, maxHeight/this.height);
 
             // On adapte la taille du canvas
-            let size = 400;
+            let size;
             if (this.height > this.width) {
                 size = this.width;
             }
@@ -32,6 +28,52 @@ export const imageResize = function(imageData, maxWidth, maxHeight, quality = 1,
 
             // Puis on convertit
             let context = canvas.getContext("2d");
+            context.drawImage(this, dx, dy);
+
+            let resizedImage = canvas.toDataURL(mimeType, quality);
+
+            canvas.remove();
+            img.remove();
+            resolve(dataURLToBlob(resizedImage));
+        };
+        img.onerror = function() {
+            canvas.remove();
+            img.remove();
+            reject(this);
+        };
+        img.src = imageData;
+    });
+}
+
+export const imageResize = function(imageData, maxWidth, maxHeight, quality = 1, mimeType = 'image/jpeg') {
+
+    return new Promise(function (resolve, reject) {
+
+        var img = document.createElement('img');
+        img.onload = function() {
+            let canvas = document.createElement("canvas");
+            // On détermine le ratio de scale
+            if (!maxHeight) maxHeight = this.height;
+            if (!maxWidth) maxWidth = this.width;
+            let scale = Math.max(maxWidth/this.width, maxHeight/this.height);
+
+
+            //On adapte la taille du canvas
+            canvas.width = maxWidth;
+            canvas.height = maxHeight;
+
+            let dx = 0;
+            let dy = 0;
+            if (maxWidth < maxHeight) {
+                dx = -(Math.abs(maxWidth - this.width) / 4);
+            }
+            else if (maxWidth > maxHeight) {
+                dy = -(Math.abs(maxHeight - this.height) / 4);
+            }
+
+            // Puis on convertit
+            let context = canvas.getContext("2d");
+            context.scale( scale, scale);
             context.drawImage(this, dx, dy);
 
             let resizedImage = canvas.toDataURL(mimeType, quality);

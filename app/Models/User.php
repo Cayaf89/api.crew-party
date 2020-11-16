@@ -9,6 +9,20 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Laravel\Passport\HasApiTokens;
 
+/**
+ * @property integer $id
+ * @property integer $owner_id
+ * @property string $created_at
+ * @property string $updated_at
+ * @property string $firstname
+ * @property string $lastname
+ * @property string $username
+ * @property string $email
+ * @property string $logo
+ * @property Crew[] $crews
+ * @property Crew[] $myCrews
+ * @property EventChoice[] $eventChoices
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -69,7 +83,7 @@ class User extends Authenticatable
 
         Storage::disk('public')->put($filename, $img->encode());
 
-        if (!empty($this->logo)) {
+        if (!empty($this->logo) && $this->logo !== 'user/default-logo.png') {
             Storage::disk('public')->delete($this->logo);
         }
 

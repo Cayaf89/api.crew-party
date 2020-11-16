@@ -86,7 +86,7 @@ export default {
 
 <style scoped>
 .sidebar {
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     top: 72px;

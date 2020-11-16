@@ -36,4 +36,18 @@ class CrewService
         });
         return $crews;
     }
+
+    /**
+     * @param $crews
+     * @param $filter
+     *
+     * @return mixed
+     */
+    public static function filterEvents($crews, $filter) {
+        $crews->where(function ($q) use ($filter) {
+            $q->orWhereRaw('LOWER(name) like ?', '%' . strtolower($filter) . '%')
+              ->orWhereRaw('LOWER(description) like ?', '%' . strtolower($filter) . '%');
+        });
+        return $crews;
+    }
 }

@@ -1,4 +1,4 @@
-import { imageResize } from "../../js/services/fileService";
+import { imageResizeSquare } from "../../js/services/fileService";
 
 const app = new Vue({
     el: '#my-parameters-page',
@@ -18,7 +18,7 @@ const app = new Vue({
     methods: {
         inputFile: async function (newFile, oldFile) {
             this.logo = newFile;
-            this.logo.file = await imageResize(URL.createObjectURL(newFile.file), 400, 400);
+            this.logo.file = await imageResizeSquare(URL.createObjectURL(newFile.file), 400);
             this.logoSrc = URL.createObjectURL(this.logo.file)
             let data = new FormData();
             data.append('logo', this.logo.file);

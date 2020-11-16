@@ -14,7 +14,7 @@ class AddLogoToCrewTable extends Migration
     public function up()
     {
         Schema::table('crew', function (Blueprint $table) {
-            $table->string('logo')->default('images/default-logo.png');
+            $table->string('logo')->default('crew/default-logo.png');
         });
     }
 

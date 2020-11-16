@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Event;
 use App\Http\Resources\User;
 use App\Models\Crew;
 use App\Services\CrewService;
@@ -20,22 +21,6 @@ class CrewController extends Controller
      */
     public function getCrew(Request $request, Crew $crew) {
         return new \App\Http\Resources\Crew($crew);
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Crew $crew
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getCrewUsers(Request $request, Crew $crew) {
-        /** @var \App\Models\User $user */
-        $users = $crew->users()->orderBy('updated_at', 'DESC');
-        if ($request->filled('filter')) {
-            $users = CrewService::filterUsers($users, $request->filter);
-        }
-        $users = $users->paginate(10);
-        return User::collection($users);
     }
 
     /**
@@ -65,8 +50,7 @@ class CrewController extends Controller
             if ($request->logo) {
                 $crewParams['logo'] = $request->logo;
             }
-            $crew = Crew::create($crewParams);
-            $user->crews()->save($crew);
+            $user->crews()->create($crewParams);
         }
         return response()->json([]);
     }
@@ -100,6 +84,28 @@ class CrewController extends Controller
         }
         else {
             return response()->json(['error' => 'Vous n\'êtes pas autorisé à modifier ce crew'], 403);
+        }
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Crew $crew
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function deleteCrew(Request $request, Crew $crew) {
+        if (auth('api')->user()->id === $crew->owner_id) {
+            try {
+                $crew->delete();
+                return response()->json([]);
+            }
+            catch (\Exception $e) {
+                throw $e;
+            }
+        }
+        else {
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
     }
 
@@ -185,22 +191,32 @@ class CrewController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Crew $crew
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function deleteCrew(Request $request, Crew $crew) {
-        if (auth('api')->user()->id === $crew->owner_id) {
-            try {
-                $crew->delete();
-                return response()->json([]);
-            }
-            catch (\Exception $e) {
-                throw $e;
-            }
+    public function getCrewUsers(Request $request, Crew $crew) {
+        /** @var \App\Models\User $user */
+        $users = $crew->users()->orderBy('updated_at', 'DESC');
+        if ($request->filled('filter')) {
+            $users = CrewService::filterUsers($users, $request->filter);
         }
-        else {
-            return response()->json(['error' => 'Unauthorized'], 403);
+        $users = $users->paginate(10);
+        return User::collection($users);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Crew $crew
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getCrewEvents(Request $request, Crew $crew) {
+        /** @var \App\Models\User $user */
+        $events = $crew->events()->orderBy('updated_at', 'DESC');
+        if ($request->filled('filter')) {
+            $events = CrewService::filterEvents($events, $request->filter);
         }
+        $events = $events->paginate(10);
+        return Event::collection($events);
     }
 
 }

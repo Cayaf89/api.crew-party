@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 /**
  * @property integer $id
@@ -50,5 +52,23 @@ class Event extends Model
     public function eventChoices()
     {
         return $this->hasMany(EventChoice::class);
+    }
+
+    public function getCover() {
+        return !empty($this->cover) ? '/storage/' . $this->cover : NULL;
+    }
+
+    public function setCoverAttribute($cover) {
+        $img = Image::make($cover)->fit(2400, 900);
+
+        $filename = 'event/' . uniqid() . time();
+
+        Storage::disk('public')->put($filename, $img->encode());
+
+        if (!empty($this->cover) && $this->cover !== 'event/default-cover.jpg') {
+            Storage::disk('public')->delete($this->cover);
+        }
+
+        $this->attributes['cover'] = $filename;
     }
 }

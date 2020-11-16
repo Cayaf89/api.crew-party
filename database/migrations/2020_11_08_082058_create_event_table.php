@@ -18,7 +18,7 @@ class CreateEventTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->longText('description');
-            $table->string('cover')->default('/storage/images/default-cover-event.png');
+            $table->string('cover')->default('event/default-cover.jpg');
             $table->foreignId('crew_id')
                   ->constrained('crew')
                   ->onDelete('cascade');

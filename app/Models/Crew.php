@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
+/**
+ * @property integer $id
+ * @property integer $owner_id
+ * @property string $created_at
+ * @property string $updated_at
+ * @property string $name
+ * @property string $description
+ * @property string $logo
+ * @property User[] $users
+ * @property User $owner
+ * @property Event[] $events
+ */
 class Crew extends Model
 {
 
@@ -42,11 +54,11 @@ class Crew extends Model
     public function setLogoAttribute($logo) {
         $img = Image::make($logo)->fit(400);
 
-        $filename  = 'crew/' . uniqid() . time();
+        $filename = 'crew/' . uniqid() . time();
 
         Storage::disk('public')->put($filename, $img->encode());
 
-        if (!empty($this->logo)) {
+        if (!empty($this->logo) && $this->logo !== 'crew/default-logo.png') {
             Storage::disk('public')->delete($this->logo);
         }
 

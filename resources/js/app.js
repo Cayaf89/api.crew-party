@@ -31,7 +31,12 @@ window.Store = new Vuex.Store({
     state: {
         user: {},
         modal: {
-            createUpdateCrew: { show: false, crew_id: null },
+            createUpdateEvent: {
+                show: false,
+                event_id: null,
+                crew_id: null,
+                classic_editor: null
+            },
             user: { show: false, userId: null }
         },
         updateSideBarCrews: null,
@@ -81,9 +86,9 @@ Vue.component('file-upload', VueUploadComponent)
 Vue.component('loading-button', require('./components/ButtonLoaderComponent.vue').default);
 
 Vue.component(
-    'modal-create-update-crew',
+    'modal-create-update-event',
     function (resolve) {
-        require(['./components/Modals/ModalCreateUpdateCrew.vue'], resolve)
+        require(['./components/Modals/ModalCreateUpdateEvent.vue'], resolve)
     });
 
 Vue.component(

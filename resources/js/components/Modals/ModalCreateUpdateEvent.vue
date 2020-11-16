@@ -3,25 +3,23 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Créer un Crew</h5>
+                    <h5 class="modal-title">Créer un Event</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <div class="modal-cover-header">
+                    <file-upload
+                        input-id="event-cover"
+                        accept="image/*"
+                        @input-file="inputCover"
+                        :min-height="150"
+                    >
+                        <img :src="coverSrc" height="300" class="event-cover" alt="event cover">
+                    </file-upload>
+                </div>
                 <div class="modal-body">
                     <div class="container">
-                        <div class="row">
-                            <div class="col-12 d-flex align-items-center justify-content-center flex-column">
-                                <file-upload
-                                    accept="image/*"
-                                    @input-file="inputFile"
-                                    :min-height="150"
-                                    :min-width="150"
-                                >
-                                    <img :src="logoSrc" height="150" width="150" class="crew-logo" alt="logo">
-                                </file-upload>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="offset-3 col-6">
                                 <label for="crew-name">Nom</label>
@@ -31,12 +29,17 @@
                         <div class="row">
                             <div class="col-12">
                                 <label>Description</label>
-                                <ckeditor :editor="editor" v-model="description" :config="editorConfig"></ckeditor>
+                                <ckeditor :editor="classic_editor" v-model="description"
+                                          :config="editorConfig"></ckeditor>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <loading-button type="button" class="btn btn-danger" v-if="$props.event_id" :loading="deletting"
+                                    :on_click="deleteEvent">
+                        Supprimer
+                    </loading-button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
                         Fermer
                     </button>
@@ -50,31 +53,27 @@
 </template>
 
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { imageResize } from "../../services/fileService";
 
 export default {
-    name: "ModalCreateUpdateCrew",
-    components: {
-        ClassicEditor,
-    },
+    name: "ModalCreateUpdateEvent",
     props: {
         onClose: Function,
+        event_id: Number,
         crew_id: Number,
-        callback: Function
+        classic_editor: Function,
+        callback: Function,
     },
     data() {
         return {
-            editor: ClassicEditor,
-            editorConfig: {
-                // The configuration of the editor.
-            },
-            logo: null,
-            logoSrc: '/storage/images/default-logo.png',
+            editorConfig: {},
+            cover: null,
+            coverSrc: '/storage/event/default-cover.jpg',
             name: '',
             description: '<p>Content of the editor.</p>',
             errors: {},
-            submitting: false
+            submitting: false,
+            deletting: false,
         };
     },
     mounted() {
@@ -86,26 +85,26 @@ export default {
             this.$props.onClose();
         });
 
-        if (this.$props.crew_id) {
-            axios.get('/api/crew/' + this.$props.crew_id)
+        if (this.$props.event_id) {
+            axios.get('/api/event/' + this.$props.event_id)
                 .then(res => {
-                    this.logoSrc = res.data.data.logo;
+                    this.coverSrc = res.data.data.cover;
                     this.name = res.data.data.name;
                     this.description = res.data.data.description;
                 })
         }
     },
     methods: {
-        inputFile: async function (newFile, oldFile) {
-            this.logo = newFile;
-            this.logo.file = await imageResize(URL.createObjectURL(newFile.file), 400, 400);
-            this.logoSrc = URL.createObjectURL(newFile.file)
-            if (this.$props.crew_id) {
+        inputCover: async function (newFile, oldFile) {
+            this.cover = newFile;
+            this.cover.file = await imageResize(URL.createObjectURL(newFile.file), 2400, 900);
+            this.coverSrc = URL.createObjectURL(newFile.file)
+            if (this.$props.event_id) {
                 let data = new FormData();
-                data.append('logo', newFile.file);
-                axios.post('/api/crew/logo/' + this.$props.crew_id, data)
+                data.append('cover', newFile.file);
+                axios.post('/api/event/' + this.$props.event_id + '/cover/', data)
                     .then(res => {
-                        this.logoSrc = res.data.logo;
+                        this.coverSrc = res.data.cover;
                     })
                     .catch(error => {
                         toastr.error(error.response.data);
@@ -113,15 +112,15 @@ export default {
             }
         },
         submit: function () {
-            if (this.$props.crew_id) {
-                axios.post('/api/crew/' + this.$props.crew_id, {
+            if (this.$props.event_id) {
+                axios.post('/api/event/' + this.$props.event_id, {
                     name: this.name,
                     description: this.description,
                 })
                     .then(res => {
                         this.errors = {};
                         $(this.$el).modal('hide');
-                        toastr.success('Crew enregistré')
+                        toastr.success('Event enregistré')
                     })
                     .catch(error => {
                         if (error?.response?.data?.errors) {
@@ -131,19 +130,31 @@ export default {
             }
             else {
                 let data = new FormData();
-                data.append('logo', this.logo.file);
+                data.append('cover', this.cover?.file ? this.cover.file : '');
                 data.append('name', this.name);
                 data.append('description', this.description);
-                axios.post('/api/crew/', data)
+                axios.post('/api/crew/' + this.$props.crew_id + '/event/', data)
                     .then(res => {
                         this.errors = {};
                         $(this.$el).modal('hide');
-                        toastr.success('Crew enregistré')
+                        toastr.success('Event enregistré')
                     })
                     .catch(error => {
                         if (error?.response?.data?.errors) {
                             this.errors = error.response.data.errors;
                         }
+                    })
+            }
+        },
+        deleteEvent: function () {
+            if (this.$props.event_id) {
+                axios.delete('/api/event/' + this.$props.event_id)
+                    .then(res => {
+                        $(this.$el).modal('hide');
+                        toastr.success('Event supprimé')
+                    })
+                    .catch(error => {
+                        toastr.error('Une erreur est survenue')
                     })
             }
         }
@@ -152,9 +163,14 @@ export default {
 </script>
 
 <style scoped>
-.crew-logo {
-    border-radius: 50%;
-    height: 150px;
-    width: 150px;
+.event-cover {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.modal-cover-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>
