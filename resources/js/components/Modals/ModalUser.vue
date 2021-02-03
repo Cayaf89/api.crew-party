@@ -16,7 +16,7 @@
                     <div class="container" v-else>
                         <div class="row">
                             <div class="col-12 d-flex align-items-center justify-content-center flex-column">
-                                <img :src="user.logo" height="150" width="150" class="user-logo" alt="logo">
+                                <img :src="user.logo" height="150" width="150" class="user-logo mb-2" alt="logo">
                                 <div class="h4">
                                     {{ user.username }}
                                 </div>

@@ -1,15 +1,13 @@
 import { imageResizeSquare } from "../../../js/services/fileService";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-build-classic/build/translations/fr.js';
-import CrewUserSideBar from "../../../js/components/SideBars/CrewUserSideBar";
 import DataTable from "../../../js/components/Tables/DataTable";
 import CardDeck from "../../../js/components/Cards/CardDeck";
 
 const app = new Vue({
-    el: '#crew-show-page',
+    el: '#event-show-page',
     store: Store,
     components: {
-        CrewUserSideBar,
         DataTable,
         CardDeck,
     },
@@ -38,16 +36,15 @@ const app = new Vue({
                     ]
                 },
             },
-            crew: {
-                id: window.crew?.id ? window.crew?.id : null,
-                name: window.crew?.name ? window.crew?.name : 'Nouveau Crew',
-                description: window.crew?.description ? window.crew?.description : 'Description du nouveau Crew',
-                owner_id: window.crew?.owner_id ? window.crew?.owner_id : this.$store.state.user.id,
+            event: {
+                id: window.event_object?.id ? window.event_object?.id : null,
+                name: window.event_object?.name ? window.event_object?.name : 'Nouveau Crew',
+                description: window.event_object?.description ? window.event_object?.description : 'Description du nouveau Crew',
+                owner_id: window.event_object?.owner_id ? window.event_object?.owner_id : this.$store.state.user.id,
             },
             users: [],
-            events: [],
             logo: {},
-            logoSrc: window.crew?.logo ? window.crew.logo : '/storage/images/default-logo.png',
+            logoSrc: window.event_object?.cover ? window.event_object.cover : '/storage/images/default-logo.png',
             isNameEdit: false,
             isDescriptionEdit: false,
             nameError: null,
@@ -55,27 +52,22 @@ const app = new Vue({
             logoError: null,
             submitting: false,
             loadingUsers: false,
-            loadingEvents: false,
-            deletingEvent: false,
-            eventsInfiniteId: +new Date(),
-            eventPage: 1,
-            eventFilter: ''
         }
     },
     mounted() {
         $(document).on('click', event => {
-            if (!this.isNameEdit && $(event.target).hasClass('crew-name')) {
+            if (!this.isNameEdit && $(event.target).hasClass('event-name')) {
                 this.isNameEdit = true;
             }
-            else if (this.isNameEdit && !$(event.target).hasClass('input-crew-name') && !$(event.target).hasClass('input-crew-name-button') && $(event.target).parents('.input-crew-name-button').length === 0) {
-                this.saveCrewField('name');
+            else if (this.isNameEdit && !$(event.target).hasClass('input-event-name') && !$(event.target).hasClass('input-event-name-button') && $(event.target).parents('.input-event-name-button').length === 0) {
+                this.saveEventField('name');
             }
 
-            if (!this.isDescriptionEdit && ($(event.target).hasClass('crew-description') || $(event.target).parents('.crew-description').length > 0)) {
+            if (!this.isDescriptionEdit && ($(event.target).hasClass('event-description') || $(event.target).parents('.event-description').length > 0)) {
                 this.isDescriptionEdit = true;
             }
             else if (this.isDescriptionEdit && $(event.target).parents('.ck-editor').length === 0) {
-                this.saveCrewField('description');
+                this.saveEventField('description');
             }
         })
     },
@@ -84,10 +76,10 @@ const app = new Vue({
             this.logo = newFile;
             this.logo.file = await imageResizeSquare(URL.createObjectURL(newFile.file), 400);
             this.logoSrc = URL.createObjectURL(this.logo.file)
-            if (this.crew?.id) {
+            if (this.event?.id) {
                 let data = new FormData();
                 data.append('logo', this.logo.file);
-                axios.post('/api/crew/logo/' + this.crew.id, data)
+                axios.post('/api/event/logo/' + this.event.id, data)
                     .then(res => {
                         this.logoSrc = res.data.logo;
                         this.$store.commit('updateSideBarCrews')
@@ -99,11 +91,11 @@ const app = new Vue({
                     })
             }
         },
-        saveCrewField: function (field) {
+        saveEventField: function (field) {
             const fieldCapitalize = field.charAt(0).toUpperCase() + field.slice(1)
-            if (this.crew.id) {
-                axios.post('/api/crew/' + this.crew.id, {
-                    [field]: this.crew[field],
+            if (this.event.id) {
+                axios.post('/api/event/' + this.event.id, {
+                    [field]: this.event[field],
                 })
                     .then(res => {
                         this.errors = {};
@@ -119,18 +111,18 @@ const app = new Vue({
                 this['is' + fieldCapitalize + 'Edit'] = false;
             }
         },
-        submitCrew: function () {
+        submitEvent: function () {
             this.submitting = true;
             let data = new FormData();
             data.append('logo', this.logo.file ? this.logo.file : 'null');
-            data.append('name', this.crew.name);
-            data.append('description', this.crew.description);
-            axios.post('/api/crew/', data)
+            data.append('name', this.event.name);
+            data.append('description', this.event.description);
+            axios.post('/api/event/', data)
                 .then(res => {
                     this.submitting = false;
                     this.errors = {};
-                    toastr.success('Le Crew a bien été créé')
-                    location.href = '/crews'
+                    toastr.success("L'évènement a bien été créé")
+                    location.href = '/events'
                 })
                 .catch(error => {
                     if (error?.response?.data?.errors) {
@@ -142,9 +134,9 @@ const app = new Vue({
                 })
         },
         getUsers: function (page, filter) {
-            if (this.crew.id) {
+            if (this.event.id) {
                 this.loadingUsers = true;
-                axios.get('/api/crew/' + this.crew.id + '/users', {
+                axios.get('/api/event/' + this.event.id + '/users', {
                     params: {
                         page: page,
                         filter: filter,
@@ -159,53 +151,10 @@ const app = new Vue({
                     })
             }
         },
-        getEvents: function ($state) {
-            if (this.crew.id) {
-                this.source?.cancel && this.source.cancel()
-                const CancelToken = axios.CancelToken;
-                this.source = CancelToken.source();
-                axios.get('/api/crew/' + this.crew.id + '/events', {
-                    params: {
-                        page: this.eventPage,
-                        filter: this.eventFilter,
-                    },
-                    cancelToken: this.source.token
-                })
-                    .then(res => {
-                        if (res.data.data.length) {
-                            this.eventPage++;
-                            this.events.push(...res.data.data);
-                            $state.loaded();
-                        }
-                        else {
-                            $state.complete();
-                        }
-                    })
-            }
-        },
-        refreshEvents: function () {
-            this.eventPage = 1;
-            this.events = []
-            this.eventsInfiniteId += 1;
-        },
-        onCardClickEvent: function (eventId) {
-            window.location.href = '/event/' + eventId
-        },
-        addEvent: function () {
-            this.$store.commit('setModal', {
-                type: 'createUpdateEvent',
-                value: {
-                    show: true,
-                    classic_editor: this.editor,
-                    crew_id: this.crew.id,
-                    callback: this.refreshEvents
-                }
-            })
-        }
     },
     computed: {
         getInputWidthStyle: function () {
-            return 'width: ' + (this.crew.name.length > 0 ? (((this.crew.name.length + 1) * 0.82) + 0.625) : 9.84) + 'rem'
+            return 'width: ' + (this.event.name.length > 0 ? (((this.event.name.length + 1) * 1.1) + 0.625) : 9.84) + 'rem'
         }
     },
     watch: {

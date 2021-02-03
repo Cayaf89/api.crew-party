@@ -40,7 +40,7 @@
                     <div class="d-flex flex-column" v-else>
                         <div class="input-group ml-5 w-auto">
                             <input type="text" class="input-crew-name" v-model="crew.name" placeholder="Nom du Crew"
-                                   :style="'width: ' + (crew.name.length > 0 ? ((crew.name.length + 1) * 0.82) : 9.84) + 'rem'"
+                                   :style="getInputWidthStyle"
                                    autofocus
                                    autocomplete="crew-name">
                             <div class="input-group-append">
