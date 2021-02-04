@@ -87,7 +87,7 @@ const app = new Vue({
             if (this.crew?.id) {
                 let data = new FormData();
                 data.append('logo', this.logo.file);
-                axios.post('/api/crew/logo/' + this.crew.id, data)
+                axios.post('/api/crew/' + this.crew.id + '/logo/', data)
                     .then(res => {
                         this.logoSrc = res.data.logo;
                         this.$store.commit('updateSideBarCrews')

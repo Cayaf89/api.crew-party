@@ -108,29 +108,4 @@ class EventController extends Controller
         }
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Event $event
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function setCover(Request $request, Event $event) {
-        if (auth('api')->user()->id === $event->crew->owner_id) {
-            $validator = Validator::make($request->all(), [
-                'cover' => 'required|image',
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 400);
-            }
-
-            $event->cover = $request->cover;
-            $event->save();
-            return response()->json(['cover' => $event->getCover()]);
-        }
-        else {
-            return response()->json(['error' => 'Vous n\'êtes pas autorisé à modifier cet event'], 403);
-        }
-    }
-
 }

@@ -5,8 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 use Laravel\Passport\HasApiTokens;
 
 /**
@@ -25,6 +23,7 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends Authenticatable
 {
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -38,7 +37,6 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'logo',
     ];
 
     /**
@@ -72,21 +70,7 @@ class User extends Authenticatable
         return $this->hasMany(Crew::class, 'owner_id');
     }
 
-    public function getLogo() {
-        return !empty($this->logo) ? '/storage/' . $this->logo : NULL;
-    }
-
-    public function setLogoAttribute($logo) {
-        $img = Image::make($logo)->fit(400);
-
-        $filename  = 'user/' . uniqid() . time();
-
-        Storage::disk('public')->put($filename, $img->encode());
-
-        if (!empty($this->logo) && $this->logo !== 'user/default-logo.png') {
-            Storage::disk('public')->delete($this->logo);
-        }
-
-        $this->attributes['logo'] = $filename;
+    public function logo() {
+        return $this->morphOne(Image::class, 'owner');
     }
 }

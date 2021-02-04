@@ -1,6 +1,9 @@
 @import '../../../sass/components';
 
 #crew-show-page {
+  margin-left: 60px;
+  width: calc(100% - 140px);
+
   .crew-logo {
     border-radius: 50%;
   }

@@ -32,7 +32,7 @@
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            <img src="{{ Auth::user()->getLogo() }}" alt="user-logo" class="navbar-user-logo" width="40" height="40">
+                            <img src="{{ Auth::user()->logo ? Auth::user()->logo->getUrl() : '' }}" alt=" " class="navbar-user-logo" width="40" height="40">
                             {{ Auth::user()->username }}
                         </a>
 

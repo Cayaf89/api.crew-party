@@ -14,10 +14,12 @@ class Crew extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var $this \App\Models\User */
+        /** @var \App\Models\Crew $this */
         return [
             'id' => $this->id,
-            'logo' => $this->getLogo(),
+            'logo' => $this->whenLoaded('logo', function () {
+                return $this->logo->getUrl();
+            }),
             'name' => $this->name,
             'description' => $this->description,
             'created_at' => $this->created_at,

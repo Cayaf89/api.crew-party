@@ -1,6 +1,9 @@
 @import '../../../sass/components';
 
 #event-show-page {
+  margin-left: 60px;
+  width: calc(100% - 60px);
+
   .event-logo {
     width: 100%;
   }

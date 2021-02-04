@@ -22,10 +22,13 @@ const app = new Vue({
             this.logoSrc = URL.createObjectURL(this.logo.file)
             let data = new FormData();
             data.append('logo', this.logo.file);
-            axios.post('/api/user/logo/' + this.$store.state.user.id, data)
+            axios.post('/api/user/' + this.$store.state.user.id + '/logo/', data)
                 .then(res => {
                     this.logoSrc = res.data.logo;
-                    this.$store.commit('updateNavBarUser')
+                    this.$store.commit('setUser', {
+                        ...this.$store.state.user,
+                        logo: res.data.logo
+                    })
                 })
                 .catch(error => {
                     if (error?.response?.data) {

@@ -41,8 +41,8 @@
             <crew-side-bar></crew-side-bar>
         @endauth
         <modal-create-update-event v-if="$store.state.modal.createUpdateEvent.show"
-                                  v-bind="$store.state.modal.createUpdateEvent"
-                                  :on-close="function() { $store.commit('setModal', { type: 'createUpdateEvent', value: { show: false }}) }"></modal-create-update-event>
+                                   v-bind="$store.state.modal.createUpdateEvent"
+                                   :on-close="function() { $store.commit('setModal', { type: 'createUpdateEvent', value: { show: false }}) }"></modal-create-update-event>
         <modal-user v-if="$store.state.modal.user.show"
                     v-bind="$store.state.modal.user"
                     :on-close="function() { $store.commit('setModal', { type: 'user', value: { show: false }}) }"></modal-user>
@@ -50,7 +50,7 @@
 
     @auth()
         <script type="text/javascript">
-            window.user = {!! json_encode(new \App\Http\Resources\User(Auth::user())) !!};
+            window.user = {!! json_encode(new \App\Http\Resources\User(Auth::user()->load('logo'))) !!};
         </script>
     @endauth
 </div>

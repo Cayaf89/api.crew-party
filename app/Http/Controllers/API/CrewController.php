@@ -20,6 +20,7 @@ class CrewController extends Controller
      * @return \App\Http\Resources\Crew
      */
     public function getCrew(Request $request, Crew $crew) {
+        $crew->load('logo');
         return new \App\Http\Resources\Crew($crew);
     }
 
@@ -47,10 +48,12 @@ class CrewController extends Controller
                 'description' => $request->description,
                 'owner_id'    => $user->id,
             ];
+            $crew = $user->crews()->create($crewParams);
             if ($request->logo) {
-                $crewParams['logo'] = $request->logo;
+                $logo = $crew->logo()->create([]);
+                $logo->url = $request->logo;
+                $logo->save();
             }
-            $user->crews()->create($crewParams);
         }
         return response()->json([]);
     }
@@ -111,31 +114,6 @@ class CrewController extends Controller
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Crew $crew
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function setLogo(Request $request, Crew $crew) {
-        if (auth('api')->user()->id === $crew->owner_id) {
-            $validator = Validator::make($request->all(), [
-                'logo' => 'required|image',
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 400);
-            }
-
-            $crew->logo = $request->logo;
-            $crew->save();
-            return response()->json(['logo' => $crew->getLogo()]);
-        }
-        else {
-            return response()->json(['error' => 'Vous n\'êtes pas autorisé à modifier ce crew'], 403);
-        }
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
@@ -146,8 +124,11 @@ class CrewController extends Controller
         if ($request->filled('filter')) {
             $crews = CrewService::filterCrews($crews, $request->filter);
         }
-        $crews = $crews->with('owner');
-        $crews = $crews->paginate(10);
+        $crews = $crews->with([
+                                  'owner',
+                                  'logo',
+                              ])
+                       ->paginate(10);
         return \App\Http\Resources\Crew::collection($crews);
     }
 
@@ -165,8 +146,11 @@ class CrewController extends Controller
         if ($request->filled('filter')) {
             $crews = CrewService::filterCrews($crews, $request->filter);
         }
-        $crews = $crews->with('owner');
-        $crews = $crews->paginate(10);
+        $crews = $crews->with([
+                                  'owner',
+                                  'logo',
+                              ])
+                       ->paginate(10);
         return \App\Http\Resources\Crew::collection($crews);
     }
 
@@ -182,8 +166,11 @@ class CrewController extends Controller
         if ($request->filled('filter')) {
             $crews = CrewService::filterCrews($crews, $request->filter);
         }
-        $crews = $crews->with('owner');
-        $crews = $crews->paginate(10);
+        $crews = $crews->with([
+                                  'owner',
+                                  'logo',
+                              ])
+                       ->paginate(10);
         return \App\Http\Resources\Crew::collection($crews);
     }
 
@@ -199,7 +186,9 @@ class CrewController extends Controller
         if ($request->filled('filter')) {
             $users = CrewService::filterUsers($users, $request->filter);
         }
-        $users = $users->paginate(10);
+        $users = $users->with('logo')
+                       ->paginate(10);
+
         return User::collection($users);
     }
 
@@ -215,7 +204,9 @@ class CrewController extends Controller
         if ($request->filled('filter')) {
             $events = CrewService::filterEvents($events, $request->filter);
         }
-        $events = $events->paginate(10);
+        $events = $events->with('logo')
+                         ->paginate(10);
+
         return Event::collection($events);
     }
 

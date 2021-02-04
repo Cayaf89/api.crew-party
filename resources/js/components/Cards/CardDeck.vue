@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="card-columns">
                 <div class="card" v-for="item in data" @click="() => onCardClick(item.id)">
-                    <img :src="item.cover" class="card-img-top" alt="cover">
+                    <img :src="item.logo" class="card-img-top" alt="cover">
                     <div class="card-body">
                         <h5 class="card-title">{{ item.name }}</h5>
                         <div class="card-text" v-html="item.description"></div>

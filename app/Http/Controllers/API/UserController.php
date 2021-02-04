@@ -11,6 +11,7 @@ class UserController extends Controller
 {
 
     public function getUser(Request $request, User $user) {
+        $user->load('logo');
         return new \App\Http\Resources\User($user);
     }
 
@@ -42,26 +43,6 @@ class UserController extends Controller
         }
         $user->save();
         return response()->json([]);
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\User $user
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function setLogo(Request $request, User $user) {
-        $validator = Validator::make($request->all(), [
-            'logo'      => 'image',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
-        }
-
-        $user->logo = $request->logo;
-        $user->save();
-        return response()->json(['logo' => $user->getLogo()]);
     }
 
 }

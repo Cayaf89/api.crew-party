@@ -16,6 +16,7 @@ class EventController extends Controller
     }
 
     public function show(Request $request, Event $event) {
+        $event->load('logo');
         return view('event.show.event-show', [
             'event' => new \App\Http\Resources\Event($event)
         ]);

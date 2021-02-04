@@ -22,7 +22,9 @@ class User extends JsonResource
             'lastname'   => $this->lastname,
             'username'   => $this->username,
             'email'      => $this->email,
-            'logo'       => $this->getLogo(),
+            'logo' => $this->whenLoaded('logo', function () {
+                return $this->logo->getUrl();
+            }),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

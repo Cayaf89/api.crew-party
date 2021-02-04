@@ -1,4 +1,4 @@
-import { imageResizeSquare } from "../../../js/services/fileService";
+import { imageResize } from "../../../js/services/fileService";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-build-classic/build/translations/fr.js';
 import DataTable from "../../../js/components/Tables/DataTable";
@@ -44,7 +44,7 @@ const app = new Vue({
             },
             users: [],
             logo: {},
-            logoSrc: window.event_object?.cover ? window.event_object.cover : '/storage/images/default-logo.png',
+            logoSrc: window.event_object?.logo ? window.event_object.logo : '/storage/images/default-logo.png',
             isNameEdit: false,
             isDescriptionEdit: false,
             nameError: null,
@@ -74,12 +74,12 @@ const app = new Vue({
     methods: {
         inputFile: async function (newFile, oldFile) {
             this.logo = newFile;
-            this.logo.file = await imageResizeSquare(URL.createObjectURL(newFile.file), 400);
+            this.logo.file = await imageResize(URL.createObjectURL(newFile.file), 1200, 300);
             this.logoSrc = URL.createObjectURL(this.logo.file)
             if (this.event?.id) {
                 let data = new FormData();
                 data.append('logo', this.logo.file);
-                axios.post('/api/event/logo/' + this.event.id, data)
+                axios.post('/api/event/' + this.event.id + '/logo/', data)
                     .then(res => {
                         this.logoSrc = res.data.logo;
                         this.$store.commit('updateSideBarCrews')

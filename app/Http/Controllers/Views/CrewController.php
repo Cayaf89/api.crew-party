@@ -15,6 +15,7 @@ class CrewController extends Controller
     }
 
     public function show(Request $request, Crew $crew) {
+        $crew->load('logo');
         return view('crew.show.crew-show', [
             'crew' => new \App\Http\Resources\Crew($crew)
         ]);
