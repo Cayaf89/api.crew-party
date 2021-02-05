@@ -84,6 +84,7 @@ const VueUploadComponent = require('vue-upload-component')
 Vue.component('file-upload', VueUploadComponent)
 
 Vue.component('loading-button', require('./components/ButtonLoaderComponent.vue').default);
+Vue.component('loader', require('./components/Loader.vue').default);
 
 Vue.component(
     'modal-create-update-event',

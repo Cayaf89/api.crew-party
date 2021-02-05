@@ -15,14 +15,19 @@ class CrewController extends Controller
     }
 
     public function show(Request $request, Crew $crew) {
-        $crew->load('logo');
         return view('crew.show.crew-show', [
-            'crew' => new \App\Http\Resources\Crew($crew)
+            'crew_id' => $crew->id
         ]);
     }
 
     public function create(Request $request) {
         return view('crew.show.crew-show');
+    }
+
+    public function createEvent(Request $request, Crew $crew) {
+        return view('crew.show.event-show', [
+            'crew_id' => $crew->id
+        ]);
     }
 
 }

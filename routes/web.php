@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-parameters', [App\Http\Controllers\Views\UserController::class, 'myParameters'])->name('my-parameters');
 
     Route::get('/crew/{crew}', [App\Http\Controllers\Views\CrewController::class, 'show'])->name('crew-show');
+    Route::get('/crew/{crew}/event', [App\Http\Controllers\Views\CrewController::class, 'createEvent'])->name('crew-create-event');
     Route::get('/crew', [App\Http\Controllers\Views\CrewController::class, 'create'])->name('crew-create');
     Route::get('/crews', [App\Http\Controllers\Views\CrewController::class, 'index'])->name('crew-list');
 

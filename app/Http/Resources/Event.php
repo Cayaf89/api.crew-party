@@ -23,6 +23,9 @@ class Event extends JsonResource
             'logo'       => $this->whenLoaded('logo', function () {
                 return $this->logo->getUrl();
             }),
+            'crew_id'       => $this->whenLoaded('crew', function () {
+                return $this->crew->id;
+            }),
             'created_at'  => $this->created_at,
             'updated_at'  => $this->updated_at,
         ];

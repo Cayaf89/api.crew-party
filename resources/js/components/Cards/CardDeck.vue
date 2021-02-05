@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row custom-card-deck">
         <div class="col-12">
             <div class="card-columns">
                 <div class="card" v-for="item in data" @click="() => onCardClick(item.id)">
@@ -39,8 +39,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .card:hover {
     cursor: pointer;
+}
+.custom-card-deck {
+    .card-text {
+        max-height: 137px;
+        overflow: hidden;
+    }
 }
 </style>

@@ -20,6 +20,7 @@ class EventController extends Controller
      * @return \App\Http\Resources\Event
      */
     public function getEvent(Request $request, Event $event) {
+        $event->load(['logo', 'crew']);
         return new \App\Http\Resources\Event($event);
     }
 

@@ -2,23 +2,17 @@
     <button type="submit" v-if="type === 'submit'" :disabled="loading || disabled" :title="tooltip"
             class="">
         <slot v-if="loading === false"></slot>
-        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" v-else>
-            <span class="sr-only">Loading...</span>
-        </span>
+        <loader v-else></loader>
     </button>
     <button type="button" v-else-if="type === 'button'" :disabled="loading || disabled" @click.stop.prevent="click"
             :title="tooltip" class="">
         <slot v-if="loading === false"></slot>
-        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" v-else>
-            <span class="sr-only">Loading...</span>
-        </span>
+        <loader v-else></loader>
     </button>
     <a :href="href" v-else-if="type === 'link'" :title="tooltip"
        class="">
         <slot v-if="loading === false"></slot>
-        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" v-else>
-            <span class="sr-only">Loading...</span>
-        </span>
+        <loader v-else></loader>
     </a>
 </template>
 
