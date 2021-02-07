@@ -8,6 +8,7 @@ window.toastr = require('toastr');
 toastr.options.toastClass = 'toastr';
 toastr.options.positionClass = 'toast-bottom-right';
 require('./bootstrap');
+require('./functions');
 
 window.Vue = require('vue');
 import VuejsDialog from 'vuejs-dialog';
@@ -15,6 +16,19 @@ import Vuex from "vuex";
 import 'vuejs-dialog/dist/vuejs-dialog.min.css';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import VueLazyload from 'vue-lazyload';
+import { setupCalendar,  } from 'v-calendar';
+
+// main.js
+setupCalendar({
+    masks: {
+        title: 'MMMM YYYY',
+        weekdays: 'W',
+        navMonths: 'MMM',
+        input: ['L', 'DD-MM-YYYY', 'DD/MM/YYYY'],
+        dayPopover: 'WWW D MMM YYYY',
+        data: ['L', 'DD-MM-YYYY', 'DD/MM/YYYY'],
+    }
+});
 
 Vue.use(VueLazyload);
 Vue.use(CKEditor);

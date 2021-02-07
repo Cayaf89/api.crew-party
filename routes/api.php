@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\API\CrewController;
+use App\Http\Controllers\API\EventController;
+use App\Http\Controllers\API\ImageController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,23 +18,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('/{type}/{id}/logo/', 'API\\ImageController@setLogo');
+    Route::post('/{type}/{id}/logo/', [ImageController::class, 'setLogo']);
 
-    Route::get('/user/{user}', 'API\\UserController@getUser');
-    Route::post('/user/{user}', 'API\\UserController@setUser');
+    Route::get('/user/{user}', [UserController::class, 'getUser']);
+    Route::post('/user/{user}', [UserController::class, 'setUser']);
 
-    Route::post('/crew/', 'API\\CrewController@createCrew');
-    Route::get('/crew/{crew}', 'API\\CrewController@getCrew');
-    Route::get('/crew/{crew}/users', 'API\\CrewController@getCrewUsers');
-    Route::get('/crew/{crew}/events', 'API\\CrewController@getCrewEvents');
-    Route::post('/crew/{crew}', 'API\\CrewController@updateCrew');
-    Route::delete('/crew/{crew}', 'API\\CrewController@deleteCrew');
-    Route::get('/crews', 'API\\CrewController@getListCrews');
-    Route::get('/other-crews', 'API\\CrewController@getListOtherCrews');
-    Route::get('/my-crews', 'API\\CrewController@getListMyCrews');
+    Route::post('/crew/', [CrewController::class, 'createCrew']);
+    Route::get('/crew/{crew}', [CrewController::class, 'getCrew']);
+    Route::get('/crew/{crew}/users', [CrewController::class, 'getCrewUsers']);
+    Route::get('/crew/{crew}/events', [CrewController::class, 'getCrewEvents']);
+    Route::post('/crew/{crew}', [CrewController::class, 'updateCrew']);
+    Route::delete('/crew/{crew}', [CrewController::class, 'deleteCrew']);
+    Route::get('/crews', [CrewController::class, 'getListCrews']);
+    Route::get('/other-crews', [CrewController::class, 'getListOtherCrews']);
+    Route::get('/my-crews', [CrewController::class, 'getListMyCrews']);
 
-    Route::post('/crew/{crew}/event/', 'API\\EventController@createEvent');
-    Route::get('/event/{event}', 'API\\EventController@getEvent');
-    Route::post('/event/{event}', 'API\\EventController@updateEvent');
-    Route::delete('/event/{event}', 'API\\EventController@deleteEvent');
+    Route::post('/crew/{crew}/event/', [EventController::class, 'createEvent']);
+    Route::get('/event/{event}', [EventController::class, 'getEvent']);
+    Route::post('/event/{event}', [EventController::class, 'updateEvent']);
+    Route::delete('/event/{event}', [EventController::class, 'deleteEvent']);
+    Route::get('/event/{event}/choices', [EventController::class, 'getEventChoices']);
+    Route::post('/event/{event}/choice', [EventController::class, 'setEventChoice']);
 });

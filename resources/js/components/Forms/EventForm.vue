@@ -1,5 +1,5 @@
 <template>
-    <div class="container-sm">
+    <div>
         <div class="d-flex align-items-center justify-content-center py-4" v-if="loadingEvent">
             <loader></loader>
         </div>

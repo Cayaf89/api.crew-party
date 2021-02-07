@@ -10,13 +10,23 @@
 
 @section('content')
     <div id="event-show-page">
-        <event-form
-                @if(!empty($event_id))
-                :event-id="{{ $event_id }}"
-                @endif
-                @if(!empty($crew_id))
-                :crew-id="{{ $crew_id }}"
-                @endif
-        ></event-form>
+        <div class="container-sm">
+            <div class="mb-3">
+                <event-form
+                        @if(!empty($event_id))
+                        :event-id="{{ $event_id }}"
+                        @endif
+                        @if(!empty($crew_id))
+                        :crew-id="{{ $crew_id }}"
+                        @endif
+                ></event-form>
+            </div>
+
+            <event-choices-form
+                    @if(!empty($event_id))
+                    :event-id="{{ $event_id }}"
+                    @endif
+            ></event-choices-form>
+        </div>
     </div>
 @endsection

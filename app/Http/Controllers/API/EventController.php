@@ -20,7 +20,10 @@ class EventController extends Controller
      * @return \App\Http\Resources\Event
      */
     public function getEvent(Request $request, Event $event) {
-        $event->load(['logo', 'crew']);
+        $event->load([
+                         'logo',
+                         'crew',
+                     ]);
         return new \App\Http\Resources\Event($event);
     }
 
@@ -107,6 +110,59 @@ class EventController extends Controller
         else {
             return response()->json(['error' => 'Vous n\'êtes pas autorisé à modifier cet évènement'], 403);
         }
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Event $event
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function setEventChoice(Request $request, Event $event) {
+        $validator = Validator::make($request->all(), [
+            'date' => 'date_format:d/m/Y|required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()]);
+        }
+        /** @var \App\Models\User $auth */
+        $auth = auth('api')->user();
+        /** @var \App\Models\EventChoice $eventChoice */
+        $eventChoice = $event->eventChoices()->firstOrCreate([
+                                                                 'date' => $request->date,
+                                                             ]);
+        if ($eventChoice->users()
+                        ->where('users.id', $auth->id)
+                        ->doesntExist()) {
+            $eventChoice->users()->attach($auth->id);
+        }
+        $eventChoice->is_user_choice = TRUE;
+        return response()->json(new \App\Http\Resources\EventChoice($eventChoice));
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Event $event
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Exception
+     */
+    public function getEventChoices(Request $request, Event $event) {
+        /** @var \App\Models\User $auth */
+        $auth         = auth('api')->user();
+        $eventChoices = $event->eventChoices()
+                              ->get()
+                              ->transform(function ($item) use ($auth) {
+                                  if ($item->users()
+                                           ->where('users.id', $auth->id)
+                                           ->exists()) {
+                                      $item->is_user_choice = TRUE;
+                                  }
+                                  return $item;
+                              });
+        return \App\Http\Resources\EventChoice::collection($eventChoices);
     }
 
 }
