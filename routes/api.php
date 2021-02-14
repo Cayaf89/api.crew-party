@@ -4,6 +4,7 @@ use App\Http\Controllers\API\CrewController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\ImageController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('/register', [RegisterController::class, 'registration']);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/{type}/{id}/logo/', [ImageController::class, 'setLogo']);

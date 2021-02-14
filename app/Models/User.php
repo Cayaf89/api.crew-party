@@ -15,6 +15,7 @@ use Laravel\Passport\HasApiTokens;
  * @property string $firstname
  * @property string $lastname
  * @property string $username
+ * @property string $password
  * @property string $email
  * @property string $logo
  * @property Crew[] $crews
