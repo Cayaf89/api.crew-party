@@ -13,48 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+
+Route::middleware('guest')->group(function () {
+    Route::get('/', [App\Http\Controllers\Views\WelcomeController::class, 'index']);
 });
 
-Route::get('login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
-Route::post('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Views\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/my-parameters', [App\Http\Controllers\Views\UserController::class, 'myParameters'])->name('my-parameters');
 
-Route::get('register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
+    Route::get('/crew/{crew}', [App\Http\Controllers\Views\CrewController::class, 'show'])->name('crew-show');
+    Route::get('/crew/{crew}/event', [App\Http\Controllers\Views\CrewController::class, 'createEvent'])->name('crew-create-event');
+    Route::get('/crew', [App\Http\Controllers\Views\CrewController::class, 'create'])->name('crew-create');
+    Route::get('/crews', [App\Http\Controllers\Views\CrewController::class, 'index'])->name('crew-list');
 
-Route::get('password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('password/email', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::get('password/reset/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('password/reset', [App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
+    Route::get('/event/{event}', [App\Http\Controllers\Views\EventController::class, 'show'])->name('event-show');
+    Route::get('/event', [App\Http\Controllers\Views\EventController::class, 'create'])->name('event-create');
+    Route::get('/events', [App\Http\Controllers\Views\EventController::class, 'index'])->name('event-list');
+});
 
-Route::get('password/confirm', [App\Http\Controllers\Auth\ConfirmPasswordController::class, 'showConfirmForm'])->name('password.confirm');
-Route::post('password/confirm', [App\Http\Controllers\Auth\ConfirmPasswordController::class, 'confirm']);
-
-Route::get('email/verify', [App\Http\Controllers\Auth\VerificationController::class, 'show'])->name('verification.notice');
-Route::get('email/verify/{id}/{hash}', [App\Http\Controllers\Auth\VerificationController::class, 'verify'])->name('verification.verify');
-Route::post('email/resend', [App\Http\Controllers\Auth\VerificationController::class, 'resend'])->name('verification.resend');
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::get('login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
-Route::post('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
-
-Route::get('register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
-
-Route::get('password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('password/email', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::get('password/reset/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('password/reset', [App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
-
-Route::get('password/confirm', [App\Http\Controllers\Auth\ConfirmPasswordController::class, 'showConfirmForm'])->name('password.confirm');
-Route::post('password/confirm', [App\Http\Controllers\Auth\ConfirmPasswordController::class, 'confirm']);
-
-Route::get('email/verify', [App\Http\Controllers\Auth\VerificationController::class, 'show'])->name('verification.notice');
-Route::get('email/verify/{id}/{hash}', [App\Http\Controllers\Auth\VerificationController::class, 'verify'])->name('verification.verify');
-Route::post('email/resend', [App\Http\Controllers\Auth\VerificationController::class, 'resend'])->name('verification.resend');
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -1,0 +1,36 @@
+@import '../../../sass/components';
+
+#crew-show-page {
+  margin-left: 60px;
+  width: calc(100% - 140px);
+
+  .crew-logo {
+    border-radius: 50%;
+  }
+
+  .input-crew-name {
+    font-size: 1.35rem;
+    border: 1px $gray solid;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    padding-left: 10px;
+  }
+
+  .crew-name {
+    font-size: 1.35rem;
+    font-weight: 500;
+    line-height: 1.2;
+    padding: 10px;
+    border: solid 1px transparent;
+  }
+
+  .crew-name:hover {
+    border: solid 1px $gray;
+    border-radius: 4px;
+  }
+
+  .error {
+    color: $red;
+    font-size: 0.7rem;
+  }
+}
