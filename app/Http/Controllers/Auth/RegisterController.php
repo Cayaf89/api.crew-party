@@ -57,6 +57,7 @@ class RegisterController extends Controller
                 'required',
                 'string',
                 'max:255',
+                'unique:users',
             ],
             'email'    => [
                 'required',

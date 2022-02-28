@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**
  * @property integer $id
@@ -46,21 +49,21 @@ class Event extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function crew() {
+    public function crew(): BelongsTo {
         return $this->belongsTo(Crew::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function eventChoices() {
+    public function eventChoices(): HasMany {
         return $this->hasMany(EventChoice::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphOne
      */
-    public function logo() {
+    public function logo(): MorphOne {
         return $this->morphOne(Image::class, 'owner');
     }
 

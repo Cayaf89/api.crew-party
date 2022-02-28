@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\CrewController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\ImageController;
+use App\Http\Controllers\API\SearchController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/crew/', [CrewController::class, 'createCrew']);
     Route::get('/crew/{crew}', [CrewController::class, 'getCrew']);
     Route::get('/crew/{crew}/users', [CrewController::class, 'getCrewUsers']);
+    Route::get('/crew/{crew}/invite-user', [CrewController::class, 'inviteUser']);
     Route::get('/crew/{crew}/events', [CrewController::class, 'getCrewEvents']);
     Route::post('/crew/{crew}', [CrewController::class, 'updateCrew']);
     Route::delete('/crew/{crew}', [CrewController::class, 'deleteCrew']);
@@ -42,4 +44,8 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/event/{event}', [EventController::class, 'deleteEvent']);
     Route::get('/event/{event}/choices', [EventController::class, 'getEventChoices']);
     Route::post('/event/{event}/choice', [EventController::class, 'setEventChoice']);
+
+    Route::get('/search/user', [SearchController::class, 'searchUser']);
+    Route::get('/search/crew', [SearchController::class, 'searchCrew']);
+    Route::get('/search/event', [SearchController::class, 'searchEvent']);
 });

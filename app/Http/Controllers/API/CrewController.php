@@ -40,21 +40,26 @@ class CrewController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        else {
-            /** @var \App\Models\User $user */
-            $user       = auth('api')->user();
-            $crewParams = [
-                'name'        => $request->name,
-                'description' => $request->description,
-                'owner_id'    => $user->id,
-            ];
-            $crew = $user->crews()->create($crewParams);
-            if ($request->logo) {
-                $logo = $crew->logo()->create([]);
-                $logo->url = $request->logo;
-                $logo->save();
-            }
+        /** @var \App\Models\User $user */
+        $user       = auth('api')->user();
+        $crewParams = [
+            'name'        => $request->name,
+            'description' => $request->description,
+            'owner_id'    => $user->id,
+        ];
+        /** @var Crew $crew */
+        $crew = $user->crews()->create($crewParams);
+        if ($request->logo) {
+            /** @var \App\Models\Image $logo */
+            $logo      = $crew->logo()->create([]);
+            $logo->url = $request->logo;
+            $logo->save();
         }
+        $crew->users()->attach($user->id, [
+            'role'   => Crew::ADMIN,
+            'status' => Crew::JOINED,
+        ]);
+
         return response()->json([]);
     }
 
@@ -65,7 +70,9 @@ class CrewController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function updateCrew(Request $request, Crew $crew) {
-        if (auth('api')->user()->id === $crew->owner_id) {
+        /** @var \App\Models\User $auth */
+        $auth = auth('api')->user();
+        if ($auth->id === $crew->owner_id || $auth->isAdminOfCrew($crew->id)) {
             if (!empty($crew)) {
                 $isUpdated = FALSE;
                 if ($request->filled('name') && $crew->name !== $request->name) {
@@ -86,7 +93,7 @@ class CrewController extends Controller
             return response()->json([]);
         }
         else {
-            return response()->json(['error' => 'Vous n\'êtes pas autorisé à modifier ce crew'], 403);
+            return response()->json(['error' => 'Vous n\'êtes pas autorisé à modifier ce crew'], 401);
         }
     }
 
@@ -108,7 +115,7 @@ class CrewController extends Controller
             }
         }
         else {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
 
@@ -208,6 +215,17 @@ class CrewController extends Controller
                          ->paginate(10);
 
         return Event::collection($events);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Crew $crew
+     */
+    public function inviteUser(Request $request, Crew $crew) {
+        /** @var \App\Models\User $auth */
+        $auth = auth('api')->user();
+
+
     }
 
 }

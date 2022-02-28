@@ -33,16 +33,13 @@ class ImageController extends Controller
 
         $typeClass = Image::TYPES[$type];
         /** @var User|Crew|Event $typeObject */
-        $typeObject = call_user_func_array([
-                                               $typeClass,
-                                               "find",
-                                           ], [$id]);
+        $typeObject = call_user_func_array([ $typeClass, "find" ], [$id]);
         if ($typeObject->logo()->exists()) {
             $typeObject->logo->delete();
         }
 
         /** @var Image $image */
-        $image      = $typeObject->logo()->updateOrCreate([]);
+        $image      = $typeObject->logo()->create([]);
         $image->url = $request->logo;
         $image->save();
         return response()->json(['logo' => $image->getUrl()]);

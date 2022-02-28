@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property integer $id
@@ -37,20 +39,18 @@ class EventChoice extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function event()
-    {
+    public function event(): BelongsTo {
         return $this->belongsTo(Event::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function users()
-    {
+    public function users(): BelongsToMany {
         return $this->belongsToMany(User::class);
     }
 
-    public function countUsers() {
+    public function countUsers(): int {
         return $this->users()->count();
     }
 }

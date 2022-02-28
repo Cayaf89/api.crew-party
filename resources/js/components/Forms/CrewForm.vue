@@ -9,39 +9,42 @@
         </div>
         <div class="container" v-else>
             <div class="row">
-                <div class="col-12 d-flex align-items-center">
-                    <div class="d-flex flex-column">
-                        <file-upload
-                            input-id="crew-logo"
-                            accept="image/*"
-                            @input-file="inputFile"
-                            :min-height="150"
-                            :min-width="150"
-                        >
-                            <img :src="crew.logo" height="150" width="150" class="crew-logo" alt="logo">
-                        </file-upload>
-                        <div class="error" v-for="error in logoError">
-                            {{ error }}
-                        </div>
-                    </div>
-                    <div class="crew-name ml-5" v-if="!isNameEdit">
-                        {{ crew.name }}
-                    </div>
-                    <div class="d-flex flex-column" v-else>
-                        <div class="input-group ml-5 w-auto">
-                            <input type="text" class="input-crew-name" v-model="crew.name" placeholder="Nom du Crew"
-                                   :style="getInputWidthStyle" autofocus autocomplete="crew-name">
-                            <div class="input-group-append">
-                                <button type="button" class="input-crew-name-button input-group-text"
-                                        @click.prevent="() => saveCrewField('name')">
-                                    <i class="fas fa-check"></i>
-                                </button>
+                <div class="col-12 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex flex-column">
+                            <file-upload
+                                input-id="crew-logo"
+                                accept="image/*"
+                                @input-file="inputFile"
+                                :min-height="150"
+                                :min-width="150"
+                            >
+                                <img :src="crew.logo" height="150" width="150" class="crew-logo" alt="logo">
+                            </file-upload>
+                            <div class="error" v-for="error in logoError">
+                                {{ error }}
                             </div>
                         </div>
-                        <div class="error" v-for="error in nameError">
-                            {{ error }}
+                        <div class="crew-name ml-5" v-if="!isNameEdit">
+                            {{ crew.name }}
+                        </div>
+                        <div class="d-flex flex-column" v-else>
+                            <div class="input-group ml-5 w-auto">
+                                <input type="text" class="input-crew-name" v-model="crew.name" placeholder="Nom du Crew"
+                                       :style="getInputWidthStyle" autofocus autocomplete="crew-name">
+                                <div class="input-group-append">
+                                    <button type="button" class="input-crew-name-button input-group-text"
+                                            @click.prevent="() => saveCrewField('name')">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="error" v-for="error in nameError">
+                                {{ error }}
+                            </div>
                         </div>
                     </div>
+                    <button type="button" class="btn btn-primary" @click="inviteMembers">Inviter des membres</button>
                 </div>
             </div>
             <div class="row mt-4">
@@ -107,10 +110,13 @@ import CardDeck from "../Cards/CardDeck";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { TOOLBAR_ITEMS } from "../../constants/ckeditor_options";
 import { imageResizeSquare } from "../../services/fileService";
+import ButtonLoaderComponent from "../ButtonLoaderComponent";
+import { CREW, USER } from "../../constants/InvitationTypes";
 
 export default {
     name: "CrewForm",
     components: {
+        ButtonLoaderComponent,
         CrewUserSideBar,
         DataTable,
         CardDeck,
@@ -278,6 +284,16 @@ export default {
                         this.loadingCrew = false;
                     })
             }
+        },
+        inviteMembers: function () {
+            this.$store.commit('setModal', {
+                type: 'invite',
+                value: {
+                    show: true,
+                    invite_type: USER,
+                    crew_id: this.crew.id,
+                }
+            })
         }
     },
     computed: {

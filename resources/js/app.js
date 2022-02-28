@@ -51,7 +51,8 @@ window.Store = new Vuex.Store({
                 crew_id: null,
                 classic_editor: null
             },
-            user: { show: false, userId: null }
+            user: { show: false, userId: null },
+            invite: { show: false, invite_type: null, invite_id: null }
         },
         updateSideBarCrews: null,
         updateNavBarUser: null,
@@ -110,6 +111,17 @@ Vue.component(
     'modal-user',
     function (resolve) {
         require(['./components/Modals/ModalUser.vue'], resolve)
+    });
+
+Vue.component(
+    'modal-invite',
+    function (resolve) {
+        require(['./components/Modals/ModalInvite.vue'], resolve)
+    });
+Vue.component(
+    'loader',
+    function (resolve) {
+        require(['./components/Loader.vue'], resolve)
     });
 
 /**

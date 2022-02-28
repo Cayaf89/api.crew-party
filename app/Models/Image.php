@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -39,7 +40,7 @@ class Image extends Model
         'url',
     ];
 
-    public function owner() {
+    public function owner(): MorphTo {
         return $this->morphTo();
     }
 
@@ -51,7 +52,7 @@ class Image extends Model
         return array_search($typeSlug, self::TYPES);
     }
 
-    public function getUrl() {
+    public function getUrl(): ?string {
         return !empty($this->url) ? '/storage/' . $this->url : NULL;
     }
 
@@ -70,7 +71,7 @@ class Image extends Model
         $this->attributes['url'] = $filename;
     }
 
-    public function delete() {
+    public function delete(): ?bool {
         if (!empty($this->url) && $this->url !== 'images/default-logo.png') {
             Storage::disk('public')->delete($this->url);
         }

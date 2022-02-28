@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -59,19 +62,33 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function crews() {
-        return $this->belongsToMany(Crew::class);
-    }
-
-    public function eventChoices() {
-        return $this->belongsToMany(EventChoice::class);
-    }
-
-    public function myCrews() {
+    public function myCrews(): HasMany {
         return $this->hasMany(Crew::class, 'owner_id');
     }
 
-    public function logo() {
+    public function crews(): BelongsToMany {
+        return $this->belongsToMany(Crew::class)
+                    ->withPivot('status', 'role')
+                    ->withTimestamps('created_at', 'updated_at');
+    }
+
+    public function isInCrew($crewId): bool {
+        return $this->crews()->where('id', $crewId)->exists();
+    }
+
+    public function isAdminOfCrew($crew_id): bool {
+        return $this->crews()
+                    ->where('id', $crew_id)
+                    ->where('status', Crew::JOINED)
+                    ->where('role', Crew::ADMIN)
+                    ->exists();
+    }
+
+    public function eventChoices(): BelongsToMany {
+        return $this->belongsToMany(EventChoice::class);
+    }
+
+    public function logo(): MorphOne {
         return $this->morphOne(Image::class, 'owner');
     }
 }

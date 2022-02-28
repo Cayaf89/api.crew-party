@@ -43,9 +43,12 @@
         <modal-create-update-event v-if="$store.state.modal.createUpdateEvent.show"
                                    v-bind="$store.state.modal.createUpdateEvent"
                                    :on-close="function() { $store.commit('setModal', { type: 'createUpdateEvent', value: { show: false }}) }"></modal-create-update-event>
-        <modal-user v-if="$store.state.modal.user.show"
-                    v-bind="$store.state.modal.user"
+
+        <modal-user v-if="$store.state.modal.user.show" v-bind="$store.state.modal.user"
                     :on-close="function() { $store.commit('setModal', { type: 'user', value: { show: false }}) }"></modal-user>
+
+        <modal-invite v-if="$store.state.modal.invite.show" v-bind="$store.state.modal.invite"
+                      :on-close="function() { $store.commit('setModal', { type: 'invite', value: { show: false }}) }"></modal-invite>
     </div>
 
     @auth()

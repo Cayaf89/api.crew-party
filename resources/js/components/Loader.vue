@@ -1,5 +1,5 @@
 <template>
-    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" v-else>
+    <span :class="classNames" role="status" aria-hidden="true" v-else>
         <span class="sr-only">Loading...</span>
     </span>
 </template>

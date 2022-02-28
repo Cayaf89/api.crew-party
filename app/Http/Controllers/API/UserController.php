@@ -39,7 +39,7 @@ class UserController extends Controller
         $user->username  = $request->username;
         $user->email     = $request->email;
         if ($request->filled('logo')) {
-            $user->logo     = $request->logo;
+            $user->logo = $request->logo;
         }
         $user->save();
         return response()->json([]);
