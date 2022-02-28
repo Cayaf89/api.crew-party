@@ -1,0 +1,16 @@
+{
+    "/js/app.js": "/js/app.js?id=6fd857f35e5fc6475fea",
+    "/css/app.css": "/css/app.css?id=36f2e41b7e6ab8f57655",
+    "/css/views/crew/list/crew-list.css": "/css/views/crew/list/crew-list.css?id=2bd00e8e1054fca5d1b9",
+    "/css/views/crew/show/crew-show.css": "/css/views/crew/show/crew-show.css?id=4373f8c5f89b406873d0",
+    "/css/views/event/list/event-list.css": "/css/views/event/list/event-list.css?id=f60aea02df3cd5820d74",
+    "/css/views/event/show/event-show.css": "/css/views/event/show/event-show.css?id=26e293c7322b048d379e",
+    "/css/views/my-parameters/my-parameters.css": "/css/views/my-parameters/my-parameters.css?id=6259f1a1b8e9a7428ab8",
+    "/js/views/auth/register/register.js": "/js/views/auth/register/register.js?id=43772a3773ac8c7533ce",
+    "/js/views/crew/list/crew-list.js": "/js/views/crew/list/crew-list.js?id=b7d7e5179f67aedb50b9",
+    "/js/views/crew/show/crew-show.js": "/js/views/crew/show/crew-show.js?id=2b6357fd7c664d352ea5",
+    "/js/views/dashboard/dashboard.js": "/js/views/dashboard/dashboard.js?id=a1f75ea26c7ff1874fa9",
+    "/js/views/event/list/event-list.js": "/js/views/event/list/event-list.js?id=4e36cf7046cd842f6c50",
+    "/js/views/event/show/event-show.js": "/js/views/event/show/event-show.js?id=6a1be5fe1ae91fd82d61",
+    "/js/views/my-parameters/my-parameters.js": "/js/views/my-parameters/my-parameters.js?id=e79cc5f8669f6ee8ea5f"
+}
