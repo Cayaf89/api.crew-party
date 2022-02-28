@@ -22,7 +22,7 @@
                     >
                         <img :src="logoSrc" height="150" width="150" class="user-logo" alt="logo">
                         <div>
-                            <i class="far fa-image"></i> Modifier l'avatar
+                            <i class="far fa-image"></i> Modifier l'avata
                         </div>
                     </file-upload>
                 </div>
