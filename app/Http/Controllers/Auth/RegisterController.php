@@ -95,20 +95,22 @@ class RegisterController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function registration(Request $request) {
+    public function register(Request $request) {
         $validator = $this->validator($request->all());
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        $user = User::create([
-                                 'username' => $request->username,
-                                 'email'    => $request->email,
-                                 'password' => Hash::make($request->password),
-                             ]);
-
-        Auth::loginUsingId($user->id, TRUE);
-        return response()->json([]);
+        $user  = User::create([
+                                  'username' => $request->username,
+                                  'email'    => $request->email,
+                                  'password' => Hash::make($request->password),
+                              ]);
+        $token = $user->createToken($request->username)->accessToken;
+        return response()->json([
+                                    'user'  => new \App\Http\Resources\User($user),
+                                    'token' => $token,
+                                ]);
     }
 }

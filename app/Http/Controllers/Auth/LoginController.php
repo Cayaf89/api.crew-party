@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Http\Request;
 use Laravel\LegacyUi\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
+
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -33,8 +36,15 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function authenticated(Request $request, User $user) {
+        $token = $user->createToken($user->username)->accessToken;
+        return response()->json([
+                                    'user'  => new \App\Http\Resources\User($user),
+                                    'token' => $token,
+                                ]);
     }
 }
