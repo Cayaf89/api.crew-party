@@ -86,7 +86,7 @@ class EventController extends Controller
             return response()->json([]);
         }
         else {
-            return response()->json(['error' => 'Vous n\'êtes pas autorisé à modifier cet évènement'], 401);
+            return response()->json(['Forbidden'], 403);
         }
     }
 
@@ -108,7 +108,7 @@ class EventController extends Controller
             }
         }
         else {
-            return response()->json(['error' => 'Vous n\'êtes pas autorisé à modifier cet évènement'], 401);
+            return response()->json(['Forbidden'], 403);
         }
     }
 

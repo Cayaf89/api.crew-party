@@ -93,7 +93,7 @@ class CrewController extends Controller
             return response()->json([]);
         }
         else {
-            return response()->json(['error' => 'Vous n\'êtes pas autorisé à modifier ce crew'], 401);
+            return response()->json(['Forbidden'], 403);
         }
     }
 
@@ -115,7 +115,7 @@ class CrewController extends Controller
             }
         }
         else {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['Forbidden'], 403);
         }
     }
 

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
@@ -24,7 +25,9 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Passport::routes();
+        Passport::ignoreCsrfToken(true);
+        Route::prefix('api')->group(function () {
+            Passport::routes();
+        });
     }
 }
