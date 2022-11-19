@@ -3,27 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
- * @property integer $id
- * @property integer $owner_id
- * @property string $created_at
- * @property string $updated_at
- * @property string $firstname
- * @property string $lastname
- * @property string $username
- * @property string $password
- * @property string $email
- * @property string $logo
- * @property Crew[] $crews
- * @property Crew[] $myCrews
- * @property EventChoice[] $eventChoices
+ * @property int id
+ * @property string profile_picture
+ * @property string name
+ * @property string email
+ * @property \DateTime email_verified_at
+ * @property \DateTime created_at
+ * @property \DateTime updated_at
  */
 class User extends Authenticatable
 {
@@ -33,20 +26,19 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
-        'firstname',
-        'lastname',
-        'username',
+        'profile_picture',
+        'name',
         'email',
         'password',
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -54,41 +46,32 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    public function myCrews(): HasMany {
-        return $this->hasMany(Crew::class, 'owner_id');
+    /**
+     * @param $image
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function setProfilePicture($image) {
+        $profilePicture = Image::make($image)->fit(400, 400);
+        $newProfilePicturePath = 'users/' . $this->id . '/profile-picture-' . time() . '.png';
+        if (Storage::disk('public')->exists($this->profile_picture)) {
+            Storage::disk('public')->delete($this->profile_picture);
+        }
+        Storage::disk('public')
+               ->put($newProfilePicturePath, $profilePicture->encode());
+        $this->profile_picture = $newProfilePicturePath;
     }
 
-    public function crews(): BelongsToMany {
-        return $this->belongsToMany(Crew::class)
-                    ->withPivot('status', 'role')
-                    ->withTimestamps('created_at', 'updated_at');
-    }
-
-    public function isInCrew($crewId): bool {
-        return $this->crews()->where('id', $crewId)->exists();
-    }
-
-    public function isAdminOfCrew($crew_id): bool {
-        return $this->crews()
-                    ->where('id', $crew_id)
-                    ->where('status', Crew::JOINED)
-                    ->where('role', Crew::ADMIN)
-                    ->exists();
-    }
-
-    public function eventChoices(): BelongsToMany {
-        return $this->belongsToMany(EventChoice::class);
-    }
-
-    public function logo(): MorphOne {
-        return $this->morphOne(Image::class, 'owner');
+    public function getProfilePicture() {
+        return env('APP_URL', 'https://crew-party-api.test') . Storage::url($this->profile_picture);
     }
 }
